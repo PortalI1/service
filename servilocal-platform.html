@@ -1,0 +1,2747 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ServiLocal — Marketplace de Serviços</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+/* ════════════════════════════════════════
+   TOKENS & RESET
+════════════════════════════════════════ */
+:root {
+  --bg:        #07090f;
+  --bg2:       #0f1320;
+  --bg3:       #161c2d;
+  --surface:   #1a2138;
+  --surfh:     #1f2845;
+  --border:    rgba(255,255,255,.07);
+  --border2:   rgba(255,255,255,.12);
+  --amber:     #f59e0b;
+  --amber2:    #fbbf24;
+  --amber3:    #fcd34d;
+  --orange:    #f97316;
+  --red:       #ef4444;
+  --green:     #22c55e;
+  --blue:      #3b82f6;
+  --teal:      #14b8a6;
+  --purple:    #a855f7;
+  --text:      #f1f5f9;
+  --text2:     #94a3b8;
+  --text3:     #64748b;
+  --radius:    14px;
+  --radius2:   22px;
+  --shadow:    0 8px 32px rgba(0,0,0,.45);
+  --shadow2:   0 2px 12px rgba(0,0,0,.3);
+  --glow:      0 0 30px rgba(245,158,11,.15);
+  --font:      'Plus Jakarta Sans', sans-serif;
+  --head:      'Sora', sans-serif;
+  --sidebar-w: 255px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+a{text-decoration:none;color:inherit;}
+button{cursor:pointer;border:none;background:none;font-family:var(--font);}
+input,textarea,select{font-family:var(--font);outline:none;}
+img{max-width:100%;}
+
+/* ════════════════════════════════════════
+   SCROLLBAR
+════════════════════════════════════════ */
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:var(--bg2);}
+::-webkit-scrollbar-thumb{background:var(--surface);border-radius:99px;}
+::-webkit-scrollbar-thumb:hover{background:var(--surfh);}
+
+/* ════════════════════════════════════════
+   UTILITIES
+════════════════════════════════════════ */
+.flex{display:flex;}.gap-1{gap:8px;}.gap-2{gap:14px;}.gap-3{gap:20px;}
+.align{align-items:center;}.wrap{flex-wrap:wrap;}
+.col{flex-direction:column;}
+.between{justify-content:space-between;}
+.center{justify-content:center;}
+.text-center{text-align:center;}
+.w-full{width:100%;}
+.hidden{display:none!important;}
+.badge{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:3px 10px;border-radius:99px;font-size:.7rem;font-weight:600;letter-spacing:.03em;
+}
+.badge-amber{background:rgba(245,158,11,.15);color:var(--amber);}
+.badge-green{background:rgba(34,197,94,.15);color:var(--green);}
+.badge-red{background:rgba(239,68,68,.15);color:var(--red);}
+.badge-blue{background:rgba(59,130,246,.15);color:var(--blue);}
+.badge-purple{background:rgba(168,85,247,.15);color:var(--purple);}
+.badge-teal{background:rgba(20,184,166,.15);color:var(--teal);}
+.badge-gray{background:rgba(100,116,139,.15);color:var(--text3);}
+.stars{color:var(--amber);font-size:.82rem;}
+.tag{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:4px 11px;border-radius:99px;font-size:.72rem;font-weight:500;
+  background:var(--bg3);color:var(--text2);border:1px solid var(--border);
+}
+.avatar{
+  width:38px;height:38px;border-radius:50%;
+  background:linear-gradient(135deg,var(--amber),var(--orange));
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:.9rem;color:#000;flex-shrink:0;
+  overflow:hidden;
+}
+.avatar img{width:100%;height:100%;object-fit:cover;}
+.avatar-lg{width:56px;height:56px;font-size:1.2rem;}
+.avatar-xl{width:80px;height:80px;font-size:1.6rem;}
+
+/* ════════════════════════════════════════
+   COMPONENTS
+════════════════════════════════════════ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:10px 20px;border-radius:var(--radius);font-weight:600;font-size:.85rem;
+  transition:all .2s;
+}
+.btn-primary{
+  background:linear-gradient(135deg,var(--amber),var(--orange));
+  color:#000;
+}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(245,158,11,.4);}
+.btn-secondary{background:var(--surface);color:var(--text);border:1px solid var(--border2);}
+.btn-secondary:hover{background:var(--surfh);}
+.btn-danger{background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.2);}
+.btn-danger:hover{background:rgba(239,68,68,.25);}
+.btn-ghost{background:transparent;color:var(--text2);border:1px solid var(--border);}
+.btn-ghost:hover{background:var(--surface);color:var(--text);}
+.btn-sm{padding:6px 14px;font-size:.78rem;border-radius:10px;}
+.btn-lg{padding:14px 28px;font-size:.95rem;}
+.btn-icon{width:36px;height:36px;padding:0;border-radius:10px;}
+
+.card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--radius2);padding:22px;
+}
+.card-hover{transition:all .22s;}
+.card-hover:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:var(--shadow);}
+
+.form-group{display:flex;flex-direction:column;gap:7px;}
+.form-label{font-size:.78rem;font-weight:600;color:var(--text2);letter-spacing:.04em;text-transform:uppercase;}
+.form-input{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:var(--radius);padding:11px 15px;color:var(--text);font-size:.88rem;
+  transition:border-color .2s;width:100%;
+}
+.form-input:focus{border-color:var(--amber);}
+.form-input::placeholder{color:var(--text3);}
+select.form-input option{background:var(--bg3);}
+textarea.form-input{resize:vertical;min-height:90px;}
+
+.divider{height:1px;background:var(--border);margin:18px 0;}
+
+/* ════════════════════════════════════════
+   LOADING SCREEN
+════════════════════════════════════════ */
+#loading{
+  position:fixed;inset:0;background:var(--bg);z-index:9999;
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:18px;
+  transition:opacity .5s;
+}
+.loader-logo{
+  font-family:var(--head);font-size:2.4rem;font-weight:800;
+  background:linear-gradient(135deg,var(--amber),var(--orange));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.loader-bar{
+  width:220px;height:3px;background:var(--surface);border-radius:99px;overflow:hidden;
+}
+.loader-fill{
+  height:100%;background:linear-gradient(90deg,var(--amber),var(--orange));
+  border-radius:99px;animation:loadfill 1.5s ease forwards;
+}
+@keyframes loadfill{from{width:0}to{width:100%}}
+
+/* ════════════════════════════════════════
+   LANDING PAGE
+════════════════════════════════════════ */
+#landing{display:flex;flex-direction:column;min-height:100vh;}
+
+/* NAV */
+.nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 48px;position:sticky;top:0;z-index:100;
+  background:rgba(7,9,15,.85);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{
+  font-family:var(--head);font-size:1.55rem;font-weight:800;
+  background:linear-gradient(135deg,var(--amber),var(--orange));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.nav-links{display:flex;align-items:center;gap:28px;}
+.nav-links a{color:var(--text2);font-size:.87rem;font-weight:500;transition:color .2s;}
+.nav-links a:hover{color:var(--text);}
+.nav-actions{display:flex;align-items:center;gap:10px;}
+
+/* HERO */
+.hero{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:80px 24px 60px;position:relative;overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 55% at 50% 30%,rgba(245,158,11,.1) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:linear-gradient(rgba(245,158,11,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(245,158,11,.04) 1px,transparent 1px);
+  background-size:48px 48px;
+  mask-image:radial-gradient(ellipse at center,black 20%,transparent 75%);
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 16px;border-radius:99px;
+  background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);
+  color:var(--amber);font-size:.78rem;font-weight:600;margin-bottom:28px;
+  animation:fadeUp .6s ease;
+}
+.hero h1{
+  font-family:var(--head);font-size:clamp(2.4rem,5vw,4rem);font-weight:800;
+  line-height:1.1;max-width:780px;margin-bottom:22px;
+  animation:fadeUp .7s .1s ease both;
+}
+.hero h1 span{
+  background:linear-gradient(135deg,var(--amber),var(--orange));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero p{
+  color:var(--text2);font-size:1.05rem;max-width:540px;line-height:1.7;
+  margin-bottom:38px;animation:fadeUp .7s .2s ease both;
+}
+.hero-actions{
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center;
+  animation:fadeUp .7s .3s ease both;
+}
+.hero-stats{
+  display:flex;align-items:center;gap:40px;margin-top:64px;
+  animation:fadeUp .7s .4s ease both;
+}
+.hero-stat{text-align:center;}
+.hero-stat .num{
+  font-family:var(--head);font-size:2rem;font-weight:800;
+  background:linear-gradient(135deg,var(--amber),var(--amber2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hero-stat .lbl{color:var(--text3);font-size:.8rem;margin-top:3px;}
+.hero-divider{width:1px;height:40px;background:var(--border);}
+
+/* FEATURES */
+.features{padding:80px 48px;max-width:1200px;margin:0 auto;width:100%;}
+.section-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  color:var(--amber);font-size:.76rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  margin-bottom:14px;
+}
+.section-tag::before{
+  content:'';width:18px;height:2px;background:var(--amber);border-radius:99px;
+}
+.features-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin-top:44px;
+}
+.feature-card{
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius2);
+  padding:26px;transition:all .25s;
+}
+.feature-card:hover{border-color:rgba(245,158,11,.3);box-shadow:var(--glow);}
+.feature-icon{
+  width:46px;height:46px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;font-size:1.15rem;
+  margin-bottom:16px;
+}
+.feature-card h3{font-family:var(--head);font-size:1rem;font-weight:700;margin-bottom:8px;}
+.feature-card p{color:var(--text2);font-size:.85rem;line-height:1.65;}
+
+/* HOW IT WORKS */
+.how{padding:80px 48px;background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.how-inner{max-width:1100px;margin:0 auto;}
+.steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;margin-top:48px;}
+.step{position:relative;padding:24px;}
+.step-num{
+  font-family:var(--head);font-size:3.5rem;font-weight:800;
+  color:rgba(245,158,11,.12);line-height:1;margin-bottom:14px;
+}
+.step h3{font-size:.95rem;font-weight:700;margin-bottom:8px;}
+.step p{color:var(--text2);font-size:.83rem;line-height:1.65;}
+.step-line{
+  position:absolute;top:40px;right:-12px;width:24px;height:2px;
+  background:linear-gradient(90deg,var(--amber),transparent);
+}
+
+/* CATEGORIES PREVIEW */
+.cats-preview{padding:80px 48px;max-width:1200px;margin:0 auto;width:100%;}
+.cats-scroll{
+  display:flex;gap:12px;overflow-x:auto;padding-bottom:12px;margin-top:36px;
+}
+.cats-scroll::-webkit-scrollbar{height:0;}
+.cat-chip{
+  flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:10px;
+  padding:20px 28px;border-radius:var(--radius2);
+  background:var(--bg2);border:1px solid var(--border);
+  transition:all .22s;cursor:pointer;min-width:110px;
+}
+.cat-chip:hover{border-color:rgba(245,158,11,.35);background:var(--bg3);transform:translateY(-3px);}
+.cat-chip .icon{font-size:1.7rem;}
+.cat-chip .name{font-size:.78rem;font-weight:600;color:var(--text2);}
+
+/* CTA SECTION */
+.cta-section{
+  padding:80px 48px;text-align:center;
+  background:linear-gradient(135deg,rgba(245,158,11,.07),rgba(249,115,22,.05));
+  border-top:1px solid var(--border);
+}
+.cta-section h2{
+  font-family:var(--head);font-size:2.4rem;font-weight:800;margin-bottom:14px;
+}
+.cta-section p{color:var(--text2);font-size:1rem;margin-bottom:34px;}
+
+/* FOOTER */
+.footer{
+  background:var(--bg2);border-top:1px solid var(--border);
+  padding:40px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;
+}
+.footer-logo{
+  font-family:var(--head);font-size:1.3rem;font-weight:800;
+  background:linear-gradient(135deg,var(--amber),var(--orange));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.footer-links{display:flex;gap:22px;flex-wrap:wrap;}
+.footer-links a{color:var(--text3);font-size:.82rem;transition:color .2s;}
+.footer-links a:hover{color:var(--text2);}
+.footer-copy{color:var(--text3);font-size:.78rem;}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(22px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* ════════════════════════════════════════
+   AUTH MODAL
+════════════════════════════════════════ */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);
+  z-index:500;display:none;align-items:center;justify-content:center;padding:20px;
+}
+.modal-overlay.active{display:flex;}
+.modal{
+  background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius2);
+  padding:36px;max-width:460px;width:100%;position:relative;
+  animation:modalIn .3s ease;max-height:90vh;overflow-y:auto;
+}
+@keyframes modalIn{
+  from{opacity:0;transform:scale(.94) translateY(16px);}
+  to{opacity:1;transform:scale(1) translateY(0);}
+}
+.modal-close{
+  position:absolute;top:16px;right:16px;
+  width:32px;height:32px;border-radius:8px;
+  background:var(--surface);color:var(--text2);
+  display:flex;align-items:center;justify-content:center;font-size:.85rem;
+  transition:all .2s;
+}
+.modal-close:hover{background:var(--surfh);color:var(--text);}
+.modal-title{
+  font-family:var(--head);font-size:1.4rem;font-weight:700;margin-bottom:6px;
+}
+.modal-sub{color:var(--text2);font-size:.85rem;margin-bottom:28px;line-height:1.5;}
+.modal-tabs{
+  display:flex;gap:4px;background:var(--bg3);border-radius:12px;padding:4px;margin-bottom:26px;
+}
+.modal-tab{
+  flex:1;padding:8px;border-radius:9px;font-size:.82rem;font-weight:600;
+  color:var(--text3);transition:all .2s;
+}
+.modal-tab.active{background:var(--surface);color:var(--text);}
+.form-grid{display:grid;gap:16px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.form-hint{color:var(--text3);font-size:.75rem;margin-top:4px;}
+.modal-footer{margin-top:24px;text-align:center;}
+.modal-footer a{color:var(--amber);font-size:.83rem;font-weight:500;}
+
+/* ════════════════════════════════════════
+   APP SHELL (Authenticated)
+════════════════════════════════════════ */
+#app{display:none;}
+#app.active{display:flex;min-height:100vh;}
+
+/* SIDEBAR */
+.sidebar{
+  width:var(--sidebar-w);flex-shrink:0;
+  background:var(--bg2);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;
+  overflow-y:auto;z-index:200;
+  transition:transform .3s;
+}
+.sidebar-header{
+  padding:20px 20px 14px;border-bottom:1px solid var(--border);
+}
+.sidebar-logo{
+  font-family:var(--head);font-size:1.35rem;font-weight:800;
+  background:linear-gradient(135deg,var(--amber),var(--orange));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.sidebar-user{
+  display:flex;align-items:center;gap:10px;
+  padding:14px 16px;margin:10px 10px 0;
+  border-radius:var(--radius);background:var(--bg3);border:1px solid var(--border);
+}
+.sidebar-user-name{font-size:.83rem;font-weight:600;line-height:1.3;}
+.sidebar-user-role{font-size:.72rem;color:var(--text3);}
+.sidebar-nav{flex:1;padding:14px 10px;}
+.sidebar-section{margin-bottom:22px;}
+.sidebar-section-title{
+  font-size:.66rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text3);padding:0 8px;margin-bottom:6px;
+}
+.nav-item{
+  display:flex;align-items:center;gap:11px;
+  padding:10px 12px;border-radius:var(--radius);
+  color:var(--text2);font-size:.855rem;font-weight:500;
+  transition:all .2s;cursor:pointer;margin-bottom:2px;
+  position:relative;
+}
+.nav-item:hover{background:var(--bg3);color:var(--text);}
+.nav-item.active{background:rgba(245,158,11,.12);color:var(--amber);font-weight:600;}
+.nav-item.active::before{
+  content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);
+  width:3px;height:22px;background:var(--amber);border-radius:0 3px 3px 0;
+}
+.nav-item i{width:16px;text-align:center;font-size:.9rem;}
+.nav-badge{
+  margin-left:auto;background:var(--red);color:#fff;
+  font-size:.65rem;font-weight:700;padding:2px 7px;border-radius:99px;min-width:20px;text-align:center;
+}
+.sidebar-footer{padding:14px 10px;border-top:1px solid var(--border);}
+.sidebar-footer .nav-item{color:var(--text3);}
+
+/* MAIN */
+.main{
+  flex:1;margin-left:var(--sidebar-w);min-height:100vh;
+  background:var(--bg);display:flex;flex-direction:column;
+}
+.topbar{
+  padding:16px 28px;display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid var(--border);background:rgba(7,9,15,.85);
+  backdrop-filter:blur(16px);position:sticky;top:0;z-index:100;
+}
+.topbar-title{font-family:var(--head);font-size:1.15rem;font-weight:700;}
+.topbar-actions{display:flex;align-items:center;gap:10px;}
+.icon-btn{
+  width:38px;height:38px;border-radius:11px;background:var(--surface);
+  border:1px solid var(--border);display:flex;align-items:center;justify-content:center;
+  color:var(--text2);font-size:.9rem;transition:all .2s;cursor:pointer;position:relative;
+}
+.icon-btn:hover{background:var(--surfh);color:var(--text);}
+.icon-btn .notif-dot{
+  position:absolute;top:6px;right:6px;width:8px;height:8px;
+  background:var(--red);border-radius:50%;border:2px solid var(--bg2);
+}
+.page-content{padding:28px;flex:1;}
+.page{display:none;}
+.page.active{display:block;}
+
+/* ════════════════════════════════════════
+   METRIC CARDS
+════════════════════════════════════════ */
+.metrics-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;
+  margin-bottom:24px;
+}
+.metric-card{
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius2);
+  padding:20px 22px;
+}
+.metric-label{font-size:.75rem;font-weight:600;color:var(--text3);letter-spacing:.04em;text-transform:uppercase;margin-bottom:10px;}
+.metric-value{font-family:var(--head);font-size:2rem;font-weight:800;line-height:1;}
+.metric-sub{font-size:.75rem;color:var(--text3);margin-top:6px;display:flex;align-items:center;gap:5px;}
+.metric-sub.up{color:var(--green);}
+.metric-sub.down{color:var(--red);}
+.metric-icon{
+  float:right;width:42px;height:42px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+}
+
+/* ════════════════════════════════════════
+   SEARCH PAGE
+════════════════════════════════════════ */
+.search-header{
+  background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(249,115,22,.05));
+  border:1px solid rgba(245,158,11,.15);border-radius:var(--radius2);
+  padding:28px;margin-bottom:24px;
+}
+.search-bar{
+  display:flex;align-items:center;gap:10px;
+  background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);
+  padding:12px 16px;margin-bottom:16px;
+}
+.search-bar i{color:var(--text3);font-size:1rem;}
+.search-bar input{
+  flex:1;background:none;border:none;color:var(--text);font-size:.9rem;
+}
+.search-bar input::placeholder{color:var(--text3);}
+.filters{display:flex;gap:10px;flex-wrap:wrap;}
+.filter-select{
+  background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);
+  padding:9px 13px;color:var(--text2);font-size:.82rem;cursor:pointer;
+}
+.results-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;
+}
+.provider-card{
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius2);
+  overflow:hidden;transition:all .25s;
+}
+.provider-card:hover{border-color:var(--border2);transform:translateY(-3px);box-shadow:var(--shadow);}
+.provider-card-cover{
+  height:120px;
+  background:linear-gradient(135deg,var(--bg3),var(--surface));
+  position:relative;display:flex;align-items:flex-end;padding:14px;
+}
+.provider-card-cover .pro-badge{
+  position:absolute;top:10px;right:10px;
+  background:linear-gradient(135deg,var(--amber),var(--orange));
+  color:#000;font-size:.65rem;font-weight:700;
+  padding:3px 9px;border-radius:99px;
+}
+.provider-card-body{padding:16px;}
+.provider-card-name{font-weight:700;font-size:.95rem;margin-bottom:3px;}
+.provider-card-cat{color:var(--text3);font-size:.78rem;margin-bottom:10px;}
+.provider-card-meta{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.provider-card-price{font-weight:700;color:var(--amber);font-size:.9rem;}
+
+/* ════════════════════════════════════════
+   PROVIDER PROFILE
+════════════════════════════════════════ */
+.profile-cover{
+  height:180px;border-radius:var(--radius2) var(--radius2) 0 0;
+  background:linear-gradient(135deg,rgba(245,158,11,.15),rgba(249,115,22,.1));
+  border:1px solid var(--border);border-bottom:none;
+  position:relative;
+}
+.profile-avatar{
+  position:absolute;bottom:-36px;left:28px;
+  width:80px;height:80px;border-radius:50%;
+  background:linear-gradient(135deg,var(--amber),var(--orange));
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.8rem;font-weight:800;color:#000;
+  border:4px solid var(--bg2);
+}
+.profile-info{
+  background:var(--bg2);border:1px solid var(--border);border-radius:0 0 var(--radius2) var(--radius2);
+  padding:50px 28px 24px;margin-bottom:20px;
+}
+.profile-name{font-family:var(--head);font-size:1.5rem;font-weight:700;}
+.profile-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+.reviews-list{display:flex;flex-direction:column;gap:14px;margin-top:16px;}
+.review-item{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius2);padding:18px;}
+.review-header{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.review-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:8px;}
+.review-criterion{display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--text3);}
+.review-criterion span{color:var(--amber);}
+
+/* ════════════════════════════════════════
+   REQUEST MODAL
+════════════════════════════════════════ */
+.status-track{display:flex;align-items:flex-start;gap:0;}
+.status-step{
+  display:flex;flex-direction:column;align-items:center;gap:5px;flex:1;
+}
+.status-dot{
+  width:24px;height:24px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:.65rem;
+  border:2px solid var(--border);background:var(--bg3);color:var(--text3);
+  position:relative;z-index:1;
+}
+.status-dot.done{background:var(--green);border-color:var(--green);color:#fff;}
+.status-dot.active{background:var(--amber);border-color:var(--amber);color:#000;animation:pulse 1.5s infinite;}
+.status-line{
+  flex:1;height:2px;background:var(--border);margin-top:11px;
+  align-self:flex-start;
+}
+.status-line.done{background:var(--green);}
+.status-label{font-size:.65rem;color:var(--text3);text-align:center;margin-top:3px;}
+
+/* ════════════════════════════════════════
+   CHAT
+════════════════════════════════════════ */
+.chat-layout{display:grid;grid-template-columns:300px 1fr;gap:0;height:calc(100vh - 130px);border:1px solid var(--border);border-radius:var(--radius2);overflow:hidden;}
+.chat-sidebar{background:var(--bg2);border-right:1px solid var(--border);overflow-y:auto;}
+.chat-sidebar-header{padding:16px;border-bottom:1px solid var(--border);}
+.chat-contact{
+  display:flex;align-items:center;gap:12px;padding:14px 16px;
+  border-bottom:1px solid var(--border);cursor:pointer;transition:background .2s;
+}
+.chat-contact:hover,.chat-contact.active{background:var(--bg3);}
+.chat-contact-info{flex:1;min-width:0;}
+.chat-contact-name{font-size:.85rem;font-weight:600;margin-bottom:2px;}
+.chat-contact-last{font-size:.75rem;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.chat-contact-time{font-size:.7rem;color:var(--text3);flex-shrink:0;}
+.chat-unread{
+  background:var(--amber);color:#000;
+  font-size:.65rem;font-weight:700;width:18px;height:18px;
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.chat-main{display:flex;flex-direction:column;background:var(--bg);}
+.chat-topbar{
+  padding:14px 18px;display:flex;align-items:center;gap:12px;
+  border-bottom:1px solid var(--border);background:var(--bg2);
+}
+.chat-messages{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:14px;}
+.msg{display:flex;gap:10px;max-width:75%;}
+.msg.sent{flex-direction:row-reverse;margin-left:auto;}
+.msg-bubble{
+  padding:10px 15px;border-radius:18px;font-size:.85rem;line-height:1.5;
+}
+.msg.recv .msg-bubble{background:var(--surface);border-radius:4px 18px 18px 18px;}
+.msg.sent .msg-bubble{background:linear-gradient(135deg,var(--amber),var(--orange));color:#000;border-radius:18px 4px 18px 18px;}
+.msg-time{font-size:.68rem;color:var(--text3);margin-top:4px;text-align:right;}
+.chat-input-bar{
+  padding:14px 16px;border-top:1px solid var(--border);background:var(--bg2);
+  display:flex;align-items:center;gap:10px;
+}
+.chat-input-bar input{
+  flex:1;background:var(--bg3);border:1px solid var(--border);
+  border-radius:var(--radius);padding:10px 15px;color:var(--text);font-size:.85rem;
+}
+
+/* ════════════════════════════════════════
+   CALENDAR
+════════════════════════════════════════ */
+.calendar{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius2);overflow:hidden;}
+.calendar-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 20px;border-bottom:1px solid var(--border);
+}
+.calendar-header h3{font-weight:700;font-size:.95rem;}
+.calendar-grid{padding:14px;}
+.cal-days{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:6px;}
+.cal-day-name{text-align:center;font-size:.7rem;color:var(--text3);font-weight:600;padding:4px;}
+.cal-date{
+  text-align:center;padding:8px 4px;border-radius:10px;font-size:.82rem;
+  cursor:pointer;transition:all .18s;
+}
+.cal-date:hover{background:var(--surface);}
+.cal-date.today{background:rgba(245,158,11,.15);color:var(--amber);font-weight:700;}
+.cal-date.available{background:rgba(34,197,94,.1);color:var(--green);}
+.cal-date.blocked{background:rgba(239,68,68,.1);color:var(--red);}
+.cal-date.other{color:var(--text3);}
+
+/* ════════════════════════════════════════
+   TIMELINE
+════════════════════════════════════════ */
+.timeline-layout{display:grid;grid-template-columns:1fr 320px;gap:22px;}
+.post-composer{
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius2);
+  padding:20px;margin-bottom:20px;
+}
+.post-composer-top{display:flex;gap:12px;margin-bottom:14px;}
+.post-composer-top textarea{
+  flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);
+  padding:12px 14px;color:var(--text);font-size:.87rem;resize:none;min-height:70px;
+}
+.post-composer-actions{display:flex;align-items:center;justify-content:space-between;}
+.post-compose-tools{display:flex;gap:8px;}
+.post-tool-btn{
+  display:flex;align-items:center;gap:6px;
+  padding:7px 12px;border-radius:var(--radius);border:1px solid var(--border);
+  background:var(--bg3);color:var(--text3);font-size:.78rem;font-weight:500;
+  cursor:pointer;transition:all .2s;
+}
+.post-tool-btn:hover{border-color:var(--border2);color:var(--text);}
+.post{
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius2);
+  padding:20px;margin-bottom:14px;transition:border-color .2s;
+}
+.post:hover{border-color:var(--border2);}
+.post-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.post-author{flex:1;}
+.post-author-name{font-size:.88rem;font-weight:700;}
+.post-author-sub{font-size:.74rem;color:var(--text3);}
+.post-time{font-size:.72rem;color:var(--text3);}
+.post-body{font-size:.875rem;line-height:1.65;color:var(--text2);margin-bottom:14px;}
+.post-images{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;
+  margin-bottom:14px;
+}
+.post-image{
+  height:120px;border-radius:var(--radius);
+  background:linear-gradient(135deg,var(--bg3),var(--surface));
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.8rem;color:var(--text3);
+}
+.post-actions{
+  display:flex;align-items:center;gap:16px;padding-top:14px;border-top:1px solid var(--border);
+}
+.post-action-btn{
+  display:flex;align-items:center;gap:6px;
+  color:var(--text3);font-size:.8rem;cursor:pointer;transition:color .2s;
+}
+.post-action-btn:hover{color:var(--amber);}
+.post-action-btn.liked{color:var(--red);}
+.timeline-sidebar-widget{
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius2);
+  padding:18px;margin-bottom:16px;
+}
+.widget-title{font-size:.82rem;font-weight:700;color:var(--text2);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+
+/* ════════════════════════════════════════
+   REQUESTS TABLE
+════════════════════════════════════════ */
+.table{width:100%;border-collapse:collapse;}
+.table th{
+  font-size:.72rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--text3);padding:11px 14px;border-bottom:1px solid var(--border);text-align:left;
+}
+.table td{
+  padding:13px 14px;border-bottom:1px solid var(--border);font-size:.84rem;
+  vertical-align:middle;
+}
+.table tr:last-child td{border-bottom:none;}
+.table tbody tr{transition:background .15s;}
+.table tbody tr:hover{background:var(--bg2);}
+
+/* ════════════════════════════════════════
+   PROVIDER DASHBOARD
+════════════════════════════════════════ */
+.dash-grid{display:grid;grid-template-columns:1fr 340px;gap:22px;}
+.service-card{
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius2);
+  overflow:hidden;transition:all .22s;
+}
+.service-card:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:var(--shadow2);}
+.service-card-img{
+  height:140px;background:linear-gradient(135deg,var(--bg3),var(--surface));
+  display:flex;align-items:center;justify-content:center;font-size:2.5rem;
+}
+.service-card-body{padding:16px;}
+.service-card-title{font-weight:700;margin-bottom:5px;font-size:.92rem;}
+.service-card-desc{color:var(--text2);font-size:.8rem;line-height:1.5;margin-bottom:12px;}
+.service-card-footer{display:flex;align-items:center;justify-content:space-between;}
+
+/* ════════════════════════════════════════
+   ADMIN PANEL
+════════════════════════════════════════ */
+.admin-alert{
+  background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);
+  border-radius:var(--radius);padding:12px 16px;display:flex;align-items:center;gap:12px;
+  margin-bottom:14px;
+}
+.admin-alert i{color:var(--red);font-size:1rem;}
+.admin-alert p{font-size:.83rem;flex:1;}
+.verification-item{
+  display:flex;align-items:center;gap:14px;
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);
+  padding:14px;margin-bottom:10px;
+}
+.doc-preview{
+  width:80px;height:60px;border-radius:9px;
+  background:var(--bg3);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;
+}
+.progress-bar{
+  background:var(--bg3);border-radius:99px;height:6px;overflow:hidden;margin-top:6px;
+}
+.progress-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--amber),var(--orange));}
+
+/* ════════════════════════════════════════
+   NOTIFICATION TOAST
+════════════════════════════════════════ */
+.toast-container{
+  position:fixed;top:20px;right:20px;z-index:9999;
+  display:flex;flex-direction:column;gap:10px;pointer-events:none;
+}
+.toast{
+  background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius);
+  padding:14px 18px;display:flex;align-items:center;gap:12px;min-width:280px;
+  pointer-events:all;animation:toastIn .3s ease;box-shadow:var(--shadow);
+}
+.toast.removing{animation:toastOut .3s ease forwards;}
+.toast-icon{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.toast-icon.success{background:rgba(34,197,94,.15);color:var(--green);}
+.toast-icon.error{background:rgba(239,68,68,.15);color:var(--red);}
+.toast-icon.info{background:rgba(59,130,246,.15);color:var(--blue);}
+.toast-icon.warn{background:rgba(245,158,11,.15);color:var(--amber);}
+.toast-text{flex:1;}
+.toast-text strong{display:block;font-size:.84rem;font-weight:600;margin-bottom:2px;}
+.toast-text span{font-size:.77rem;color:var(--text2);}
+@keyframes toastIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+@keyframes toastOut{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(20px)}}
+
+/* ════════════════════════════════════════
+   NOTIFICATION PANEL
+════════════════════════════════════════ */
+.notif-panel{
+  position:absolute;top:calc(100% + 8px);right:0;
+  width:340px;background:var(--bg2);border:1px solid var(--border2);
+  border-radius:var(--radius2);overflow:hidden;box-shadow:var(--shadow);
+  animation:dropIn .2s ease;
+}
+@keyframes dropIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.notif-panel-header{
+  padding:14px 16px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.notif-panel-header h4{font-size:.88rem;font-weight:700;}
+.notif-item{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:13px 16px;border-bottom:1px solid var(--border);
+  cursor:pointer;transition:background .15s;
+}
+.notif-item:hover{background:var(--bg3);}
+.notif-item:last-child{border-bottom:none;}
+.notif-item.unread{background:rgba(245,158,11,.04);}
+.notif-item-icon{
+  width:34px;height:34px;border-radius:10px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:.85rem;
+}
+.notif-item p{font-size:.8rem;line-height:1.5;color:var(--text2);}
+.notif-item span{font-size:.7rem;color:var(--text3);margin-top:3px;display:block;}
+
+/* ════════════════════════════════════════
+   RATING MODAL
+════════════════════════════════════════ */
+.star-input{display:flex;gap:6px;margin-top:6px;}
+.star-btn{font-size:1.5rem;color:var(--text3);cursor:pointer;transition:all .15s;}
+.star-btn.active,.star-btn:hover{color:var(--amber);}
+
+/* ════════════════════════════════════════
+   UPLOAD ZONE
+════════════════════════════════════════ */
+.upload-zone{
+  border:2px dashed var(--border2);border-radius:var(--radius);
+  padding:32px 20px;text-align:center;cursor:pointer;transition:all .2s;
+}
+.upload-zone:hover{border-color:var(--amber);background:rgba(245,158,11,.04);}
+.upload-zone i{font-size:2rem;color:var(--text3);display:block;margin-bottom:10px;}
+.upload-zone p{color:var(--text2);font-size:.84rem;}
+.upload-zone span{color:var(--text3);font-size:.76rem;}
+
+/* VERIFIED BADGE */
+.verified{display:inline-flex;align-items:center;gap:4px;color:var(--teal);font-size:.74rem;font-weight:600;}
+
+/* ════════════════════════════════════════
+   ANIMATION
+════════════════════════════════════════ */
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,.4)}50%{box-shadow:0 0 0 6px rgba(245,158,11,0)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ════════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════════ */
+@media(max-width:900px){
+  :root{--sidebar-w:0px;}
+  .sidebar{transform:translateX(-100%);}
+  .sidebar.open{transform:translateX(0);width:255px;}
+  .main{margin-left:0;}
+  .timeline-layout{grid-template-columns:1fr;}
+  .dash-grid{grid-template-columns:1fr;}
+  .chat-layout{grid-template-columns:1fr;}
+  .chat-sidebar{display:none;}
+  .form-row{grid-template-columns:1fr;}
+  .hero{padding:60px 20px 48px;}
+  .hero-stats{gap:24px;flex-wrap:wrap;}
+  .features,.how,.cats-preview,.cta-section{padding:48px 20px;}
+  .nav{padding:14px 20px;}
+  .nav-links{display:none;}
+  .footer{padding:28px 20px;}
+}
+@media(max-width:600px){
+  .results-grid{grid-template-columns:1fr;}
+  .metrics-grid{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════
+     LOADING SCREEN
+══════════════════════════════════ -->
+<div id="loading">
+  <div class="loader-logo">ServiLocal</div>
+  <div style="color:var(--text3);font-size:.82rem;margin-top:-6px;">Carregando plataforma...</div>
+  <div class="loader-bar"><div class="loader-fill"></div></div>
+</div>
+
+<!-- ══════════════════════════════════
+     TOAST CONTAINER
+══════════════════════════════════ -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ══════════════════════════════════
+     AUTH MODAL
+══════════════════════════════════ -->
+<div class="modal-overlay" id="authModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('authModal')"><i class="fas fa-times"></i></button>
+    <div class="modal-title">Bem-vindo(a) ao ServiLocal</div>
+    <div class="modal-sub">Conectamos você aos melhores profissionais da sua região.</div>
+    <div class="modal-tabs">
+      <button class="modal-tab active" onclick="switchAuthTab('login',this)">Entrar</button>
+      <button class="modal-tab" onclick="switchAuthTab('register',this)">Cadastrar</button>
+    </div>
+    <!-- LOGIN -->
+    <div id="tab-login">
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">E-mail</label>
+          <input type="email" class="form-input" placeholder="seu@email.com" id="loginEmail">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Senha</label>
+          <input type="password" class="form-input" placeholder="••••••••" id="loginPass">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <button class="btn btn-primary w-full" onclick="mockLogin('client')"><i class="fas fa-user"></i> Entrar como Cliente</button>
+          <button class="btn btn-secondary w-full" onclick="mockLogin('provider')"><i class="fas fa-briefcase"></i> Entrar como Prestador</button>
+          <button class="btn" style="background:rgba(168,85,247,.12);color:var(--purple);border:1px solid rgba(168,85,247,.2);width:100%;padding:10px;" onclick="mockLogin('admin')"><i class="fas fa-shield-halved"></i> Entrar como Admin</button>
+        </div>
+      </div>
+      <div class="modal-footer"><a href="#" onclick="switchAuthTab('register',null)">Não tem conta? <strong>Cadastre-se</strong></a></div>
+    </div>
+    <!-- REGISTER -->
+    <div id="tab-register" class="hidden">
+      <div class="form-grid">
+        <div class="modal-tabs" style="margin-bottom:16px;margin-top:-4px;">
+          <button class="modal-tab active" id="regTypeClient" onclick="setRegType('client',this)">Sou Cliente</button>
+          <button class="modal-tab" id="regTypeProvider" onclick="setRegType('provider',this)">Sou Prestador</button>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Nome</label><input class="form-input" placeholder="Seu nome"></div>
+          <div class="form-group"><label class="form-label">Sobrenome</label><input class="form-input" placeholder="Sobrenome"></div>
+        </div>
+        <div class="form-group"><label class="form-label">E-mail</label><input type="email" class="form-input" placeholder="seu@email.com"></div>
+        <div class="form-group"><label class="form-label">Telefone</label><input type="tel" class="form-input" placeholder="(11) 99999-9999"></div>
+        <div class="form-group"><label class="form-label">Senha</label><input type="password" class="form-input" placeholder="••••••••"></div>
+        <div id="providerExtra" class="hidden">
+          <div class="form-group" style="margin-bottom:14px;">
+            <label class="form-label">Categoria de Serviço</label>
+            <select class="form-input filter-select" style="width:100%">
+              <option>Limpeza e Organização</option><option>Elétrica</option><option>Hidráulica</option>
+              <option>Pintura</option><option>Reformas</option><option>Beleza e Estética</option>
+              <option>Aulas e Tutoria</option><option>Tecnologia</option><option>Jardinagem</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <div style="display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--text2);">
+            <input type="checkbox" id="terms"> <label for="terms">Concordo com os <a href="#" style="color:var(--amber);">Termos de Uso</a></label>
+          </div>
+        </div>
+        <button class="btn btn-primary w-full" onclick="mockRegister()"><i class="fas fa-rocket"></i> Criar Conta</button>
+        <div style="background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.15);border-radius:var(--radius);padding:12px;text-align:center;">
+          <div style="font-size:.75rem;color:var(--text2);">📱 Um SMS de verificação será enviado ao seu número.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     SERVICE REQUEST MODAL
+══════════════════════════════════ -->
+<div class="modal-overlay" id="requestModal">
+  <div class="modal" style="max-width:520px;">
+    <button class="modal-close" onclick="closeModal('requestModal')"><i class="fas fa-times"></i></button>
+    <div class="modal-title">Solicitar Serviço</div>
+    <div class="modal-sub">Preencha os detalhes para solicitar um orçamento ao prestador.</div>
+    <div class="form-grid">
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Data</label><input type="date" class="form-input"></div>
+        <div class="form-group"><label class="form-label">Horário</label><input type="time" class="form-input"></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Endereço do Serviço</label>
+        <input class="form-input" placeholder="Rua, número, bairro, cidade">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Descrição do que precisa</label>
+        <textarea class="form-input" placeholder="Descreva detalhadamente o serviço que precisa..."></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Fotos (opcional)</label>
+        <div class="upload-zone" onclick="showToast('info','Upload','Funcionalidade de upload ativa!')">
+          <i class="fas fa-camera"></i>
+          <p>Adicionar fotos do serviço</p>
+          <span>PNG, JPG ou HEIC até 10MB</span>
+        </div>
+      </div>
+      <button class="btn btn-primary w-full btn-lg" onclick="submitRequest()"><i class="fas fa-paper-plane"></i> Enviar Solicitação</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     RATING MODAL
+══════════════════════════════════ -->
+<div class="modal-overlay" id="ratingModal">
+  <div class="modal" style="max-width:440px;">
+    <button class="modal-close" onclick="closeModal('ratingModal')"><i class="fas fa-times"></i></button>
+    <div class="modal-title">Avaliar Prestador</div>
+    <div class="modal-sub">Sua avaliação ajuda outros clientes a escolherem os melhores profissionais.</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">Qualidade do Serviço</label>
+        <div class="star-input" id="stars-quality">
+          <span class="star-btn" onclick="setStars('quality',1)">★</span>
+          <span class="star-btn" onclick="setStars('quality',2)">★</span>
+          <span class="star-btn" onclick="setStars('quality',3)">★</span>
+          <span class="star-btn" onclick="setStars('quality',4)">★</span>
+          <span class="star-btn" onclick="setStars('quality',5)">★</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Rapidez</label>
+        <div class="star-input" id="stars-speed">
+          <span class="star-btn" onclick="setStars('speed',1)">★</span>
+          <span class="star-btn" onclick="setStars('speed',2)">★</span>
+          <span class="star-btn" onclick="setStars('speed',3)">★</span>
+          <span class="star-btn" onclick="setStars('speed',4)">★</span>
+          <span class="star-btn" onclick="setStars('speed',5)">★</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Comunicação</label>
+        <div class="star-input" id="stars-comm">
+          <span class="star-btn" onclick="setStars('comm',1)">★</span>
+          <span class="star-btn" onclick="setStars('comm',2)">★</span>
+          <span class="star-btn" onclick="setStars('comm',3)">★</span>
+          <span class="star-btn" onclick="setStars('comm',4)">★</span>
+          <span class="star-btn" onclick="setStars('comm',5)">★</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Comentário</label>
+        <textarea class="form-input" placeholder="Conte sua experiência com o prestador..."></textarea>
+      </div>
+      <button class="btn btn-primary w-full" onclick="submitRating()"><i class="fas fa-star"></i> Enviar Avaliação</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     REPORT MODAL
+══════════════════════════════════ -->
+<div class="modal-overlay" id="reportModal">
+  <div class="modal" style="max-width:420px;">
+    <button class="modal-close" onclick="closeModal('reportModal')"><i class="fas fa-times"></i></button>
+    <div class="modal-title">Denunciar Usuário</div>
+    <div class="modal-sub">Nos ajude a manter a plataforma segura. Sua denúncia será analisada pela nossa equipe.</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">Motivo da Denúncia</label>
+        <select class="form-input">
+          <option>Comportamento inadequado</option>
+          <option>Serviço não realizado</option>
+          <option>Golpe / Fraude</option>
+          <option>Assédio</option>
+          <option>Perfil falso</option>
+          <option>Outro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Descrição</label>
+        <textarea class="form-input" placeholder="Descreva o ocorrido em detalhes..."></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Evidências (opcional)</label>
+        <div class="upload-zone" style="padding:18px;">
+          <i class="fas fa-paperclip" style="font-size:1.4rem;"></i>
+          <p>Anexar capturas de tela</p>
+        </div>
+      </div>
+      <button class="btn btn-danger w-full" style="background:var(--red);color:#fff;" onclick="submitReport()"><i class="fas fa-flag"></i> Enviar Denúncia</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     LANDING PAGE
+══════════════════════════════════ -->
+<div id="landing">
+  <nav class="nav">
+    <div class="nav-logo">ServiLocal</div>
+    <div class="nav-links">
+      <a href="#" onclick="scrollSection('features')">Como Funciona</a>
+      <a href="#" onclick="scrollSection('categories')">Categorias</a>
+      <a href="#">Seja Prestador</a>
+      <a href="#">Suporte</a>
+    </div>
+    <div class="nav-actions">
+      <button class="btn btn-ghost btn-sm" onclick="openModal('authModal')">Entrar</button>
+      <button class="btn btn-primary btn-sm" onclick="openModal('authModal')">Comece Grátis</button>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-badge"><i class="fas fa-bolt"></i> Serviços locais verificados</div>
+    <h1>Encontre o profissional <span>perfeito</span> para você</h1>
+    <p>Conectamos você a prestadores de serviço verificados na sua região. Rápido, seguro e confiável.</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary btn-lg" onclick="openModal('authModal')"><i class="fas fa-search"></i> Encontrar Serviço</button>
+      <button class="btn btn-secondary btn-lg" onclick="openModal('authModal')"><i class="fas fa-briefcase"></i> Oferecer Serviço</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="num">47k+</div><div class="lbl">Prestadores Ativos</div></div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat"><div class="num">180k+</div><div class="lbl">Serviços Realizados</div></div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat"><div class="num">4.9★</div><div class="lbl">Avaliação Média</div></div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat"><div class="num">98%</div><div class="lbl">Satisfação</div></div>
+    </div>
+  </section>
+
+  <section id="categories" class="cats-preview">
+    <div class="section-tag">Explore</div>
+    <h2 style="font-family:var(--head);font-size:1.9rem;font-weight:700;">Categorias Populares</h2>
+    <div class="cats-scroll">
+      <div class="cat-chip"><div class="icon">🧹</div><div class="name">Limpeza</div></div>
+      <div class="cat-chip"><div class="icon">⚡</div><div class="name">Elétrica</div></div>
+      <div class="cat-chip"><div class="icon">🔧</div><div class="name">Hidráulica</div></div>
+      <div class="cat-chip"><div class="icon">🎨</div><div class="name">Pintura</div></div>
+      <div class="cat-chip"><div class="icon">💇</div><div class="name">Beleza</div></div>
+      <div class="cat-chip"><div class="icon">📚</div><div class="name">Aulas</div></div>
+      <div class="cat-chip"><div class="icon">💻</div><div class="name">Tecnologia</div></div>
+      <div class="cat-chip"><div class="icon">🌿</div><div class="name">Jardinagem</div></div>
+      <div class="cat-chip"><div class="icon">🐾</div><div class="name">Pets</div></div>
+      <div class="cat-chip"><div class="icon">🏠</div><div class="name">Reformas</div></div>
+      <div class="cat-chip"><div class="icon">🚗</div><div class="name">Automóveis</div></div>
+      <div class="cat-chip"><div class="icon">👨‍🍳</div><div class="name">Culinária</div></div>
+    </div>
+  </section>
+
+  <section id="features" class="features">
+    <div class="section-tag">Vantagens</div>
+    <h2 style="font-family:var(--head);font-size:1.9rem;font-weight:700;">Por que usar o ServiLocal?</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(245,158,11,.12);color:var(--amber)"><i class="fas fa-shield-halved"></i></div>
+        <h3>Prestadores Verificados</h3>
+        <p>Todos os prestadores passam por verificação de identidade com documento e selfie antes de ativar o perfil.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(34,197,94,.12);color:var(--green)"><i class="fas fa-star"></i></div>
+        <h3>Avaliações Reais</h3>
+        <p>Sistema de avaliação com notas para qualidade, rapidez e comunicação. Apenas clientes reais podem avaliar.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(59,130,246,.12);color:var(--blue)"><i class="fas fa-comments"></i></div>
+        <h3>Chat em Tempo Real</h3>
+        <p>Converse diretamente com o prestador para alinhar detalhes, tirar dúvidas e combinar o serviço.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(168,85,247,.12);color:var(--purple)"><i class="fas fa-clock"></i></div>
+        <h3>Agendamento Fácil</h3>
+        <p>Veja a disponibilidade do prestador em tempo real e agende para a data e horário mais conveniente.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(20,184,166,.12);color:var(--teal)"><i class="fas fa-lock"></i></div>
+        <h3>Pagamento Seguro</h3>
+        <p>Seu pagamento fica retido até você confirmar a conclusão do serviço. Garantia de proteção total.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(249,115,22,.12);color:var(--orange)"><i class="fas fa-headset"></i></div>
+        <h3>Suporte 24/7</h3>
+        <p>Equipe de suporte disponível para resolver qualquer problema durante ou após o serviço.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="how">
+    <div class="how-inner">
+      <div class="section-tag">Como Funciona</div>
+      <h2 style="font-family:var(--head);font-size:1.9rem;font-weight:700;">Em 4 passos simples</h2>
+      <div class="steps-grid">
+        <div class="step">
+          <div class="step-num">01</div>
+          <h3>Descreva o que precisa</h3>
+          <p>Informe o tipo de serviço, localização e detalhes específicos do que você precisa.</p>
+          <div class="step-line"></div>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <h3>Escolha o prestador</h3>
+          <p>Compare perfis, avaliações, preços e disponibilidade dos profissionais verificados.</p>
+          <div class="step-line"></div>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <h3>Solicite e agende</h3>
+          <p>Envie a solicitação, converse pelo chat e confirme data e horário com o prestador.</p>
+          <div class="step-line"></div>
+        </div>
+        <div class="step">
+          <div class="step-num">04</div>
+          <h3>Avalie a experiência</h3>
+          <p>Após o serviço, avalie o profissional e ajude outros usuários a fazerem a melhor escolha.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <h2>Pronto para começar?</h2>
+    <p>Junte-se a mais de 47 mil profissionais e 180 mil clientes satisfeitos.</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary btn-lg" onclick="openModal('authModal')"><i class="fas fa-user-plus"></i> Criar Conta Grátis</button>
+      <button class="btn btn-ghost btn-lg" onclick="openModal('authModal')"><i class="fas fa-briefcase"></i> Cadastrar como Prestador</button>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div>
+      <div class="footer-logo">ServiLocal</div>
+      <div style="color:var(--text3);font-size:.78rem;margin-top:5px;">© 2025 ServiLocal. Todos os direitos reservados.</div>
+    </div>
+    <div class="footer-links">
+      <a href="#">Sobre Nós</a><a href="#">Termos de Uso</a><a href="#">Privacidade</a>
+      <a href="#">Suporte</a><a href="#">Blog</a><a href="#">Carreiras</a>
+    </div>
+    <div style="display:flex;gap:10px;">
+      <div class="icon-btn" style="cursor:pointer"><i class="fab fa-instagram"></i></div>
+      <div class="icon-btn" style="cursor:pointer"><i class="fab fa-whatsapp"></i></div>
+      <div class="icon-btn" style="cursor:pointer"><i class="fab fa-linkedin-in"></i></div>
+    </div>
+  </footer>
+</div>
+
+<!-- ══════════════════════════════════
+     APP SHELL
+══════════════════════════════════ -->
+<div id="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">ServiLocal</div>
+      <div style="font-size:.7rem;color:var(--text3);margin-top:2px;" id="sidebarRoleLabel"></div>
+    </div>
+    <div class="sidebar-user">
+      <div class="avatar" id="sidebarAvatar">JD</div>
+      <div>
+        <div class="sidebar-user-name" id="sidebarName">João Silva</div>
+        <div class="sidebar-user-role" id="sidebarRole">Cliente</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav">
+      <!-- Dynamically populated -->
+    </nav>
+    <div class="sidebar-footer">
+      <div class="nav-item" onclick="goToLanding()"><i class="fas fa-globe"></i> Ver Site</div>
+      <div class="nav-item" onclick="logout()"><i class="fas fa-right-from-bracket"></i> Sair</div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <button class="icon-btn" id="menuToggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+        <div class="topbar-title" id="topbarTitle">Dashboard</div>
+      </div>
+      <div class="topbar-actions">
+        <div style="position:relative;">
+          <button class="icon-btn" onclick="toggleNotif()" id="notifBtn">
+            <i class="fas fa-bell"></i>
+            <span class="notif-dot"></span>
+          </button>
+          <div id="notifPanel" class="notif-panel hidden">
+            <div class="notif-panel-header">
+              <h4>Notificações</h4>
+              <button class="btn btn-sm btn-ghost" style="font-size:.72rem;">Marcar tudo</button>
+            </div>
+            <div class="notif-item unread">
+              <div class="notif-item-icon" style="background:rgba(34,197,94,.12);color:var(--green)"><i class="fas fa-check"></i></div>
+              <div><p>Sua solicitação foi <strong>aceita</strong> por Carlos Eletricista</p><span>Há 5 min</span></div>
+            </div>
+            <div class="notif-item unread">
+              <div class="notif-item-icon" style="background:rgba(59,130,246,.12);color:var(--blue)"><i class="fas fa-message"></i></div>
+              <div><p>Nova mensagem de <strong>Maria Limpeza</strong></p><span>Há 12 min</span></div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-item-icon" style="background:rgba(245,158,11,.12);color:var(--amber)"><i class="fas fa-star"></i></div>
+              <div><p>Você recebeu uma nova <strong>avaliação 5★</strong></p><span>Há 1h</span></div>
+            </div>
+            <div class="notif-item">
+              <div class="notif-item-icon" style="background:rgba(249,115,22,.12);color:var(--orange)"><i class="fas fa-calendar"></i></div>
+              <div><p>Serviço agendado para <strong>amanhã às 14h</strong></p><span>Há 3h</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="avatar" id="topAvatar" style="cursor:pointer;font-size:.82rem;"></div>
+      </div>
+    </div>
+
+    <div class="page-content">
+
+      <!-- ══ CLIENT PAGES ══ -->
+
+      <!-- C1: CLIENT DASHBOARD -->
+      <div class="page" id="page-client-dashboard">
+        <div style="margin-bottom:22px;">
+          <h2 style="font-family:var(--head);font-size:1.5rem;font-weight:700;">Olá, <span id="clientNameGreet">João</span>! 👋</h2>
+          <p style="color:var(--text2);font-size:.875rem;">O que você precisa hoje?</p>
+        </div>
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-icon" style="background:rgba(59,130,246,.1);color:var(--blue)"><i class="fas fa-list"></i></div>
+            <div class="metric-label">Solicitações</div>
+            <div class="metric-value" style="color:var(--blue)">8</div>
+            <div class="metric-sub">Total no mês</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon" style="background:rgba(34,197,94,.1);color:var(--green)"><i class="fas fa-check-circle"></i></div>
+            <div class="metric-label">Concluídos</div>
+            <div class="metric-value" style="color:var(--green)">6</div>
+            <div class="metric-sub up"><i class="fas fa-arrow-up"></i> +2 esse mês</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon" style="background:rgba(245,158,11,.1);color:var(--amber)"><i class="fas fa-clock"></i></div>
+            <div class="metric-label">Em Andamento</div>
+            <div class="metric-value" style="color:var(--amber)">1</div>
+            <div class="metric-sub">Ativos agora</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon" style="background:rgba(168,85,247,.1);color:var(--purple)"><i class="fas fa-heart"></i></div>
+            <div class="metric-label">Favoritos</div>
+            <div class="metric-value" style="color:var(--purple)">12</div>
+            <div class="metric-sub">Prestadores salvos</div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 340px;gap:22px;" class="wrap">
+          <div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+              <h3 style="font-weight:700;font-size:1rem;">Solicitações Recentes</h3>
+              <button class="btn btn-ghost btn-sm" onclick="navigateTo('client-requests')">Ver todas</button>
+            </div>
+            <div class="card" style="padding:0;overflow:hidden;">
+              <table class="table">
+                <thead><tr><th>Serviço</th><th>Prestador</th><th>Data</th><th>Status</th><th></th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td><span style="font-weight:600">Instalação Elétrica</span></td>
+                    <td><div class="flex align gap-1"><div class="avatar" style="width:28px;height:28px;font-size:.65rem">CE</div>Carlos E.</div></td>
+                    <td style="color:var(--text2);font-size:.8rem">15 Jan, 14h</td>
+                    <td><span class="badge badge-amber">Em andamento</span></td>
+                    <td><button class="btn btn-ghost btn-sm" onclick="navigateTo('client-requests')">Ver</button></td>
+                  </tr>
+                  <tr>
+                    <td><span style="font-weight:600">Limpeza Residencial</span></td>
+                    <td><div class="flex align gap-1"><div class="avatar" style="width:28px;height:28px;font-size:.65rem;background:linear-gradient(135deg,#3b82f6,#06b6d4)">ML</div>Maria L.</div></td>
+                    <td style="color:var(--text2);font-size:.8rem">10 Jan, 09h</td>
+                    <td><span class="badge badge-green">Finalizado</span></td>
+                    <td><button class="btn btn-ghost btn-sm" onclick="openModal('ratingModal')">Avaliar</button></td>
+                  </tr>
+                  <tr>
+                    <td><span style="font-weight:600">Pintura de Quarto</span></td>
+                    <td><div class="flex align gap-1"><div class="avatar" style="width:28px;height:28px;font-size:.65rem;background:linear-gradient(135deg,#a855f7,#ec4899)">RP</div>Roberto P.</div></td>
+                    <td style="color:var(--text2);font-size:.8rem">05 Jan, 08h</td>
+                    <td><span class="badge badge-green">Finalizado</span></td>
+                    <td><button class="btn btn-ghost btn-sm" onclick="openModal('ratingModal')">Avaliar</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <div style="margin-bottom:14px;"><h3 style="font-weight:700;font-size:1rem;">Ação Rápida</h3></div>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <button class="btn btn-primary" onclick="navigateTo('client-search')" style="justify-content:flex-start;padding:16px;gap:14px;">
+                <div style="width:38px;height:38px;border-radius:10px;background:rgba(0,0,0,.2);display:flex;align-items:center;justify-content:center;"><i class="fas fa-search"></i></div>
+                <div style="text-align:left;"><div>Buscar Serviços</div><div style="font-size:.73rem;opacity:.7;font-weight:400">Encontre profissionais</div></div>
+              </button>
+              <button class="btn btn-secondary" onclick="navigateTo('client-chat')" style="justify-content:flex-start;padding:16px;gap:14px;">
+                <div style="width:38px;height:38px;border-radius:10px;background:var(--bg3);display:flex;align-items:center;justify-content:center;color:var(--blue)"><i class="fas fa-comments"></i></div>
+                <div style="text-align:left;"><div>Mensagens</div><div style="font-size:.73rem;color:var(--text3);font-weight:400">2 não lidas</div></div>
+              </button>
+              <button class="btn btn-secondary" onclick="navigateTo('timeline')" style="justify-content:flex-start;padding:16px;gap:14px;">
+                <div style="width:38px;height:38px;border-radius:10px;background:var(--bg3);display:flex;align-items:center;justify-content:center;color:var(--purple)"><i class="fas fa-rss"></i></div>
+                <div style="text-align:left;"><div>Timeline</div><div style="font-size:.73rem;color:var(--text3);font-weight:400">Novidades da comunidade</div></div>
+              </button>
+            </div>
+            <div class="divider"></div>
+            <div class="card" style="background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(249,115,22,.05));border-color:rgba(245,158,11,.2);">
+              <div style="font-size:.75rem;font-weight:700;color:var(--amber);margin-bottom:8px;">💡 DICA</div>
+              <p style="font-size:.82rem;color:var(--text2);line-height:1.6;">Ative as notificações para receber atualizações em tempo real sobre seus serviços!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- C2: SEARCH -->
+      <div class="page" id="page-client-search">
+        <div class="search-header">
+          <h2 style="font-family:var(--head);font-size:1.3rem;font-weight:700;margin-bottom:14px;">Encontre o Profissional Ideal</h2>
+          <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input placeholder="Buscar serviço, profissional ou categoria..." oninput="filterProviders(this.value)">
+          </div>
+          <div class="filters">
+            <select class="filter-select form-input" onchange="filterProviders()">
+              <option value="">Todas as Categorias</option>
+              <option>Limpeza</option><option>Elétrica</option><option>Hidráulica</option>
+              <option>Pintura</option><option>Beleza</option><option>Tecnologia</option>
+            </select>
+            <select class="filter-select form-input">
+              <option>Qualquer Localização</option>
+              <option>Até 5 km</option><option>Até 15 km</option><option>Até 30 km</option>
+            </select>
+            <select class="filter-select form-input">
+              <option>Qualquer Avaliação</option>
+              <option>4.5+ ★</option><option>4.0+ ★</option><option>3.5+ ★</option>
+            </select>
+            <select class="filter-select form-input">
+              <option>Qualquer Disponibilidade</option>
+              <option>Hoje</option><option>Amanhã</option><option>Essa semana</option>
+            </select>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+          <div style="color:var(--text2);font-size:.84rem;"><strong style="color:var(--text)" id="resultsCount">24</strong> profissionais encontrados</div>
+          <select class="filter-select form-input">
+            <option>Mais Relevantes</option><option>Melhor Avaliados</option><option>Menor Preço</option><option>Destaque</option>
+          </select>
+        </div>
+        <div class="results-grid" id="providersGrid">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <!-- C3: REQUESTS -->
+      <div class="page" id="page-client-requests">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;">
+          <h2 style="font-family:var(--head);font-size:1.3rem;font-weight:700;">Minhas Solicitações</h2>
+          <button class="btn btn-primary btn-sm" onclick="navigateTo('client-search')"><i class="fas fa-plus"></i> Nova Solicitação</button>
+        </div>
+        <div class="flex gap-2 align" style="margin-bottom:18px;flex-wrap:wrap;">
+          <button class="badge badge-amber" style="padding:7px 15px;cursor:pointer;font-size:.78rem;border:none;" onclick="filterReqs('all',this)">Todas (8)</button>
+          <button class="tag" onclick="filterReqs('pending',this)">⏳ Pendentes (1)</button>
+          <button class="tag" onclick="filterReqs('active',this)">🔄 Em Andamento (1)</button>
+          <button class="tag" onclick="filterReqs('done',this)">✅ Concluídas (5)</button>
+          <button class="tag" onclick="filterReqs('cancelled',this)">❌ Canceladas (1)</button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px;" id="requestsList">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- C4: CHAT -->
+      <div class="page" id="page-client-chat">
+        <div class="chat-layout">
+          <div class="chat-sidebar">
+            <div class="chat-sidebar-header">
+              <div class="search-bar" style="margin-bottom:0">
+                <i class="fas fa-search"></i><input placeholder="Buscar conversa...">
+              </div>
+            </div>
+            <div class="chat-contact active" onclick="selectChat('Carlos Eletricista','CE','linear-gradient(135deg,#f59e0b,#f97316)')">
+              <div class="avatar" style="background:linear-gradient(135deg,#f59e0b,#f97316)">CE</div>
+              <div class="chat-contact-info">
+                <div class="chat-contact-name">Carlos Eletricista</div>
+                <div class="chat-contact-last">Posso ir amanhã às 14h, pode ser?</div>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
+                <div class="chat-contact-time">14:32</div>
+                <div class="chat-unread">2</div>
+              </div>
+            </div>
+            <div class="chat-contact" onclick="selectChat('Maria Limpeza','ML','linear-gradient(135deg,#3b82f6,#06b6d4)')">
+              <div class="avatar" style="background:linear-gradient(135deg,#3b82f6,#06b6d4)">ML</div>
+              <div class="chat-contact-info">
+                <div class="chat-contact-name">Maria Limpeza</div>
+                <div class="chat-contact-last">Obrigada pela avaliação! 😊</div>
+              </div>
+              <div class="chat-contact-time">Ontem</div>
+            </div>
+            <div class="chat-contact" onclick="selectChat('Roberto Pintor','RP','linear-gradient(135deg,#a855f7,#ec4899)')">
+              <div class="avatar" style="background:linear-gradient(135deg,#a855f7,#ec4899)">RP</div>
+              <div class="chat-contact-info">
+                <div class="chat-contact-name">Roberto Pintor</div>
+                <div class="chat-contact-last">Serviço finalizado! Até a próxima 👍</div>
+              </div>
+              <div class="chat-contact-time">Seg</div>
+            </div>
+          </div>
+          <div class="chat-main">
+            <div class="chat-topbar">
+              <div class="avatar" id="chatAvatar" style="background:linear-gradient(135deg,#f59e0b,#f97316)">CE</div>
+              <div style="flex:1">
+                <div style="font-weight:700;font-size:.9rem;" id="chatName">Carlos Eletricista</div>
+                <div style="font-size:.74rem;color:var(--green)"><i class="fas fa-circle" style="font-size:.4rem"></i> Online agora</div>
+              </div>
+              <button class="btn btn-ghost btn-sm" onclick="openModal('reportModal')"><i class="fas fa-flag"></i> Denunciar</button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+              <div class="msg recv">
+                <div class="avatar" style="width:28px;height:28px;font-size:.62rem;background:linear-gradient(135deg,#f59e0b,#f97316)">CE</div>
+                <div><div class="msg-bubble">Olá! Vi sua solicitação. Consigo ir na terça-feira. O serviço parece simples, deve levar em torno de 2 horas.</div><div class="msg-time">14:25</div></div>
+              </div>
+              <div class="msg sent">
+                <div class="avatar" style="width:28px;height:28px;font-size:.62rem">JD</div>
+                <div><div class="msg-bubble">Ótimo! Terça está perfeito. Pode ser às 14h?</div><div class="msg-time">14:28</div></div>
+              </div>
+              <div class="msg recv">
+                <div class="avatar" style="width:28px;height:28px;font-size:.62rem;background:linear-gradient(135deg,#f59e0b,#f97316)">CE</div>
+                <div><div class="msg-bubble">Posso ir amanhã às 14h, pode ser? Tenho um encaixe na agenda 😊</div><div class="msg-time">14:32</div></div>
+              </div>
+            </div>
+            <div class="chat-input-bar">
+              <button class="icon-btn"><i class="fas fa-paperclip"></i></button>
+              <input placeholder="Digite uma mensagem..." id="chatInput" onkeydown="if(event.key==='Enter')sendMsg()">
+              <button class="btn btn-primary btn-sm" onclick="sendMsg()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ PROVIDER PAGES ══ -->
+
+      <!-- P1: PROVIDER DASHBOARD -->
+      <div class="page" id="page-provider-dashboard">
+        <div style="margin-bottom:22px;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px;">
+            <h2 style="font-family:var(--head);font-size:1.5rem;font-weight:700;">Olá, <span id="provNameGreet">Carlos</span>! 👋</h2>
+            <span class="badge badge-amber"><i class="fas fa-crown"></i> PRO</span>
+          </div>
+          <p style="color:var(--text2);font-size:.875rem;">Seu painel de controle</p>
+        </div>
+
+        <div class="admin-alert">
+          <i class="fas fa-exclamation-triangle"></i>
+          <p><strong>Atenção:</strong> Você recebeu uma reclamação de um cliente. <a href="#" style="color:var(--red);font-weight:600;">Ver detalhes</a></p>
+          <button class="btn btn-danger btn-sm">Resolver</button>
+        </div>
+
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-icon" style="background:rgba(245,158,11,.1);color:var(--amber)"><i class="fas fa-file-invoice"></i></div>
+            <div class="metric-label">Solicitações</div>
+            <div class="metric-value" style="color:var(--amber)">23</div>
+            <div class="metric-sub up"><i class="fas fa-arrow-up"></i> +5 essa semana</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon" style="background:rgba(34,197,94,.1);color:var(--green)"><i class="fas fa-dollar-sign"></i></div>
+            <div class="metric-label">Receita (mês)</div>
+            <div class="metric-value" style="color:var(--green)">R$4.2k</div>
+            <div class="metric-sub up"><i class="fas fa-arrow-up"></i> +R$800</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon" style="background:rgba(59,130,246,.1);color:var(--blue)"><i class="fas fa-comments"></i></div>
+            <div class="metric-label">Mensagens</div>
+            <div class="metric-value" style="color:var(--blue)">7</div>
+            <div class="metric-sub">Não lidas</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon" style="background:rgba(168,85,247,.1);color:var(--purple)"><i class="fas fa-star"></i></div>
+            <div class="metric-label">Avaliação Média</div>
+            <div class="metric-value" style="color:var(--purple)">4.8</div>
+            <div class="metric-sub">★★★★★ (47 avaliações)</div>
+          </div>
+        </div>
+
+        <div class="dash-grid">
+          <div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+              <h3 style="font-weight:700;font-size:1rem;">Novas Solicitações</h3>
+              <button class="btn btn-ghost btn-sm" onclick="navigateTo('provider-requests')">Ver todas</button>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <div class="card" style="padding:16px;">
+                <div style="display:flex;align-items:center;gap:12px;">
+                  <div class="avatar" style="background:linear-gradient(135deg,#3b82f6,#06b6d4)">AS</div>
+                  <div style="flex:1">
+                    <div style="font-weight:600;font-size:.88rem;">Ana Souza</div>
+                    <div style="color:var(--text2);font-size:.78rem;">Instalação de tomadas — Casa em São Paulo</div>
+                    <div style="font-size:.74rem;color:var(--text3);margin-top:3px;">15 Jan, 10h • R$ 180</div>
+                  </div>
+                  <div style="display:flex;gap:6px;">
+                    <button class="btn btn-sm" style="background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.2);" onclick="showToast('success','Aceito!','Solicitação aceita com sucesso.')"><i class="fas fa-check"></i></button>
+                    <button class="btn btn-sm btn-danger" onclick="showToast('error','Rejeitado','Solicitação rejeitada.')"><i class="fas fa-times"></i></button>
+                  </div>
+                </div>
+              </div>
+              <div class="card" style="padding:16px;">
+                <div style="display:flex;align-items:center;gap:12px;">
+                  <div class="avatar" style="background:linear-gradient(135deg,#a855f7,#ec4899)">LF</div>
+                  <div style="flex:1">
+                    <div style="font-weight:600;font-size:.88rem;">Lucas Ferreira</div>
+                    <div style="color:var(--text2);font-size:.78rem;">Troca de disjuntor — Apartamento Mooca</div>
+                    <div style="font-size:.74rem;color:var(--text3);margin-top:3px;">16 Jan, 14h • R$ 120</div>
+                  </div>
+                  <div style="display:flex;gap:6px;">
+                    <button class="btn btn-sm" style="background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.2);" onclick="showToast('success','Aceito!','Solicitação aceita.')"><i class="fas fa-check"></i></button>
+                    <button class="btn btn-sm btn-danger" onclick="showToast('error','Rejeitado','Solicitação rejeitada.')"><i class="fas fa-times"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div style="margin-bottom:14px;"><h3 style="font-weight:700;font-size:1rem;">Calendário</h3></div>
+            <div class="calendar">
+              <div class="calendar-header">
+                <button class="icon-btn btn-sm"><i class="fas fa-chevron-left"></i></button>
+                <h3>Janeiro 2025</h3>
+                <button class="icon-btn btn-sm"><i class="fas fa-chevron-right"></i></button>
+              </div>
+              <div class="calendar-grid">
+                <div class="cal-days">
+                  <div class="cal-day-name">Dom</div><div class="cal-day-name">Seg</div>
+                  <div class="cal-day-name">Ter</div><div class="cal-day-name">Qua</div>
+                  <div class="cal-day-name">Qui</div><div class="cal-day-name">Sex</div>
+                  <div class="cal-day-name">Sáb</div>
+                </div>
+                <div class="cal-days" id="calDays"><!-- JS generated --></div>
+              </div>
+              <div style="padding:0 14px 14px;display:flex;gap:10px;flex-wrap:wrap;">
+                <div style="display:flex;align-items:center;gap:5px;font-size:.72rem;color:var(--text3);"><div style="width:10px;height:10px;border-radius:3px;background:rgba(34,197,94,.3)"></div>Disponível</div>
+                <div style="display:flex;align-items:center;gap:5px;font-size:.72rem;color:var(--text3);"><div style="width:10px;height:10px;border-radius:3px;background:rgba(239,68,68,.3)"></div>Bloqueado</div>
+                <div style="display:flex;align-items:center;gap:5px;font-size:.72rem;color:var(--text3);"><div style="width:10px;height:10px;border-radius:3px;background:rgba(245,158,11,.3)"></div>Hoje</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- P2: MY SERVICES -->
+      <div class="page" id="page-provider-services">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;">
+          <h2 style="font-family:var(--head);font-size:1.3rem;font-weight:700;">Meus Serviços</h2>
+          <button class="btn btn-primary btn-sm" onclick="openNewServiceModal()"><i class="fas fa-plus"></i> Novo Serviço</button>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;">
+          <div class="service-card">
+            <div class="service-card-img">⚡</div>
+            <div class="service-card-body">
+              <div class="service-card-title">Instalação Elétrica Residencial</div>
+              <div class="service-card-desc">Instalação de tomadas, interruptores, luminárias e quadro de distribuição.</div>
+              <div class="service-card-footer">
+                <div style="color:var(--amber);font-weight:700;">R$ 80/h</div>
+                <div style="display:flex;gap:6px;">
+                  <button class="btn btn-ghost btn-sm"><i class="fas fa-pen"></i></button>
+                  <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;margin-top:10px;">
+                <span class="badge badge-green">Ativo</span>
+                <span style="font-size:.73rem;color:var(--text3);">32 solicitações</span>
+              </div>
+            </div>
+          </div>
+          <div class="service-card">
+            <div class="service-card-img">🔌</div>
+            <div class="service-card-body">
+              <div class="service-card-title">Manutenção de Chuveiro Elétrico</div>
+              <div class="service-card-desc">Troca de resistência, reparo e instalação de chuveiro elétrico.</div>
+              <div class="service-card-footer">
+                <div style="color:var(--amber);font-weight:700;">A combinar</div>
+                <div style="display:flex;gap:6px;">
+                  <button class="btn btn-ghost btn-sm"><i class="fas fa-pen"></i></button>
+                  <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></button>
+                </div>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;margin-top:10px;">
+                <span class="badge badge-green">Ativo</span>
+                <span style="font-size:.73rem;color:var(--text3);">18 solicitações</span>
+              </div>
+            </div>
+          </div>
+          <div class="service-card" style="border-style:dashed;display:flex;align-items:center;justify-content:center;min-height:200px;cursor:pointer;" onclick="openNewServiceModal()">
+            <div style="text-align:center;color:var(--text3);">
+              <i class="fas fa-plus" style="font-size:1.8rem;display:block;margin-bottom:10px;"></i>
+              <div style="font-size:.85rem;font-weight:600;">Adicionar Serviço</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- P3: PROVIDER REQUESTS -->
+      <div class="page" id="page-provider-requests">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;">
+          <h2 style="font-family:var(--head);font-size:1.3rem;font-weight:700;">Solicitações Recebidas</h2>
+        </div>
+        <div class="card" style="padding:0;overflow:hidden;">
+          <table class="table">
+            <thead><tr><th>Cliente</th><th>Serviço</th><th>Data/Hora</th><th>Valor</th><th>Status</th><th>Ações</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><div class="flex align gap-1"><div class="avatar" style="width:30px;height:30px;font-size:.68rem;background:linear-gradient(135deg,#3b82f6,#06b6d4)">AS</div>Ana Souza</div></td>
+                <td>Instalação de tomadas</td>
+                <td style="color:var(--text2);font-size:.8rem">15 Jan, 10h</td>
+                <td style="color:var(--amber);font-weight:600">R$ 180</td>
+                <td><span class="badge badge-blue">Pendente</span></td>
+                <td><div class="flex gap-1">
+                  <button class="btn btn-sm" style="background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.2);" onclick="showToast('success','Aceito!','Solicitação aceita.')">Aceitar</button>
+                  <button class="btn btn-danger btn-sm" onclick="showToast('warn','Rejeitado','Solicitação rejeitada.')">Rejeitar</button>
+                </div></td>
+              </tr>
+              <tr>
+                <td><div class="flex align gap-1"><div class="avatar" style="width:30px;height:30px;font-size:.68rem;background:linear-gradient(135deg,#f59e0b,#f97316)">JD</div>João Dias</div></td>
+                <td>Instalação Elétrica</td>
+                <td style="color:var(--text2);font-size:.8rem">14 Jan, 14h</td>
+                <td style="color:var(--amber);font-weight:600">R$ 350</td>
+                <td><span class="badge badge-amber">Em andamento</span></td>
+                <td><button class="btn btn-ghost btn-sm" onclick="showToast('success','Atualizado!','Status atualizado.')">Finalizar</button></td>
+              </tr>
+              <tr>
+                <td><div class="flex align gap-1"><div class="avatar" style="width:30px;height:30px;font-size:.68rem;background:linear-gradient(135deg,#a855f7,#ec4899)">LF</div>Lucas F.</div></td>
+                <td>Troca de disjuntor</td>
+                <td style="color:var(--text2);font-size:.8rem">12 Jan, 09h</td>
+                <td style="color:var(--amber);font-weight:600">R$ 120</td>
+                <td><span class="badge badge-green">Finalizado</span></td>
+                <td><span style="font-size:.78rem;color:var(--text3)">5★ avaliado</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- P4: PROVIDER PROFILE (EDIT) -->
+      <div class="page" id="page-provider-profile">
+        <div style="margin-bottom:22px;"><h2 style="font-family:var(--head);font-size:1.3rem;font-weight:700;">Meu Perfil</h2></div>
+
+        <div style="display:grid;grid-template-columns:1fr 300px;gap:22px;" class="wrap">
+          <div>
+            <div class="card" style="margin-bottom:18px;">
+              <h3 style="font-weight:700;font-size:.95rem;margin-bottom:18px;">Informações Pessoais</h3>
+              <div class="form-grid">
+                <div class="form-row">
+                  <div class="form-group"><label class="form-label">Nome</label><input class="form-input" value="Carlos Eduardo"></div>
+                  <div class="form-group"><label class="form-label">Sobrenome</label><input class="form-input" value="Martins"></div>
+                </div>
+                <div class="form-group"><label class="form-label">Bio</label><textarea class="form-input">Eletricista com mais de 10 anos de experiência em instalações residenciais e comerciais. Profissional certificado e com todas as ferramentas necessárias.</textarea></div>
+                <div class="form-row">
+                  <div class="form-group"><label class="form-label">Cidade</label><input class="form-input" value="São Paulo"></div>
+                  <div class="form-group"><label class="form-label">Bairro</label><input class="form-input" value="Vila Mariana"></div>
+                </div>
+                <button class="btn btn-primary" style="width:fit-content;" onclick="showToast('success','Salvo!','Perfil atualizado com sucesso.')"><i class="fas fa-save"></i> Salvar Alterações</button>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3 style="font-weight:700;font-size:.95rem;margin-bottom:8px;">Verificação de Identidade</h3>
+              <p style="color:var(--text2);font-size:.82rem;margin-bottom:18px;">Envie seus documentos para ser verificado e ganhar mais confiança dos clientes.</p>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;" class="wrap">
+                <div class="form-group">
+                  <label class="form-label">Documento (RG/CPF)</label>
+                  <div class="upload-zone" style="padding:24px 16px;">
+                    <i class="fas fa-id-card"></i>
+                    <p>Upload do documento</p>
+                    <span>Frente e verso</span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Selfie com Documento</label>
+                  <div class="upload-zone" style="padding:24px 16px;">
+                    <i class="fas fa-camera"></i>
+                    <p>Sua foto com o documento</p>
+                    <span>Rosto visível</span>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-top:14px;padding:12px 16px;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.2);border-radius:var(--radius);display:flex;align-items:center;gap:10px;">
+                <i class="fas fa-check-circle" style="color:var(--green);"></i>
+                <div>
+                  <div style="font-size:.82rem;font-weight:600;color:var(--green)">Identidade Verificada</div>
+                  <div style="font-size:.74rem;color:var(--text3)">Documento aprovado em 10/01/2025</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="card" style="margin-bottom:16px;text-align:center;">
+              <div class="avatar avatar-xl" style="margin:0 auto 14px;">CE</div>
+              <div style="font-weight:700;font-size:1.05rem;">Carlos Eduardo</div>
+              <div style="color:var(--text3);font-size:.8rem;margin-bottom:10px;">Eletricista • São Paulo</div>
+              <div class="verified"><i class="fas fa-circle-check"></i> Verificado pela plataforma</div>
+              <div class="divider"></div>
+              <div class="stars" style="font-size:1.1rem;">★★★★★</div>
+              <div style="font-size:.82rem;color:var(--text3);margin-top:4px;">4.8 de 5 · 47 avaliações</div>
+              <div class="divider"></div>
+              <button class="btn btn-primary w-full btn-sm" style="margin-bottom:8px;" onclick="showToast('info','PRO','Plano PRO já ativo!')"><i class="fas fa-crown"></i> Plano PRO Ativo</button>
+              <button class="btn btn-ghost w-full btn-sm" onclick="openModal('reportModal')"><i class="fas fa-eye"></i> Ver Perfil Público</button>
+            </div>
+            <div class="card">
+              <div style="font-size:.82rem;font-weight:700;margin-bottom:12px;">Estatísticas</div>
+              <div style="display:flex;flex-direction:column;gap:12px;">
+                <div>
+                  <div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:5px;"><span style="color:var(--text2)">Taxa de conclusão</span><span style="font-weight:600;">95%</span></div>
+                  <div class="progress-bar"><div class="progress-fill" style="width:95%"></div></div>
+                </div>
+                <div>
+                  <div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:5px;"><span style="color:var(--text2)">Tempo de resposta</span><span style="font-weight:600;">88%</span></div>
+                  <div class="progress-bar"><div class="progress-fill" style="width:88%"></div></div>
+                </div>
+                <div>
+                  <div style="display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:5px;"><span style="color:var(--text2)">Satisfação geral</span><span style="font-weight:600;">96%</span></div>
+                  <div class="progress-bar"><div class="progress-fill" style="width:96%"></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ TIMELINE ══ -->
+      <div class="page" id="page-timeline">
+        <div style="margin-bottom:22px;">
+          <h2 style="font-family:var(--head);font-size:1.3rem;font-weight:700;">Timeline da Comunidade</h2>
+          <p style="color:var(--text2);font-size:.875rem;">Trabalhos realizados e feedbacks da comunidade ServiLocal</p>
+        </div>
+        <div class="timeline-layout">
+          <div>
+            <div class="post-composer">
+              <div class="post-composer-top">
+                <div class="avatar">JD</div>
+                <textarea placeholder="Compartilhe um trabalho realizado, dica ou feedback..."></textarea>
+              </div>
+              <div class="post-composer-actions">
+                <div class="post-compose-tools">
+                  <div class="post-tool-btn"><i class="fas fa-image"></i> Foto</div>
+                  <div class="post-tool-btn"><i class="fas fa-tag"></i> Tag</div>
+                  <div class="post-tool-btn"><i class="fas fa-map-pin"></i> Local</div>
+                </div>
+                <button class="btn btn-primary btn-sm" onclick="publishPost()"><i class="fas fa-paper-plane"></i> Publicar</button>
+              </div>
+            </div>
+            <div id="timelinePosts"><!-- Populated by JS --></div>
+          </div>
+          <div>
+            <div class="timeline-sidebar-widget">
+              <div class="widget-title"><i class="fas fa-fire" style="color:var(--orange)"></i> Em Alta</div>
+              <div style="display:flex;flex-direction:column;gap:10px;">
+                <div style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+                  <div style="font-size:1.4rem;">🔧</div>
+                  <div><div style="font-size:.82rem;font-weight:600;">Hidráulica</div><div style="font-size:.74rem;color:var(--text3)">234 posts essa semana</div></div>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+                  <div style="font-size:1.4rem;">⚡</div>
+                  <div><div style="font-size:.82rem;font-weight:600;">Elétrica</div><div style="font-size:.74rem;color:var(--text3)">198 posts essa semana</div></div>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+                  <div style="font-size:1.4rem;">🧹</div>
+                  <div><div style="font-size:.82rem;font-weight:600;">Limpeza</div><div style="font-size:.74rem;color:var(--text3)">176 posts essa semana</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="timeline-sidebar-widget">
+              <div class="widget-title"><i class="fas fa-crown" style="color:var(--amber)"></i> Destaque PRO</div>
+              <div style="display:flex;flex-direction:column;gap:12px;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <div class="avatar" style="background:linear-gradient(135deg,#f59e0b,#f97316)">CE</div>
+                  <div style="flex:1"><div style="font-size:.82rem;font-weight:600;">Carlos Eletricista</div><div class="stars" style="font-size:.7rem;">★★★★★ 4.9</div></div>
+                  <button class="btn btn-ghost btn-sm" style="font-size:.72rem;">Ver</button>
+                </div>
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <div class="avatar" style="background:linear-gradient(135deg,#3b82f6,#06b6d4)">ML</div>
+                  <div style="flex:1"><div style="font-size:.82rem;font-weight:600;">Maria Limpeza</div><div class="stars" style="font-size:.7rem;">★★★★★ 4.8</div></div>
+                  <button class="btn btn-ghost btn-sm" style="font-size:.72rem;">Ver</button>
+                </div>
+              </div>
+            </div>
+            <div class="timeline-sidebar-widget" style="background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(249,115,22,.05));border-color:rgba(245,158,11,.2);">
+              <div style="font-size:.82rem;font-weight:700;color:var(--amber);margin-bottom:8px;"><i class="fas fa-crown"></i> PLANO PRO</div>
+              <p style="font-size:.8rem;color:var(--text2);margin-bottom:14px;line-height:1.6;">Apareça em destaque, ganhe mais visibilidade e atraia mais clientes.</p>
+              <button class="btn btn-primary w-full btn-sm" onclick="showToast('info','PRO','Redirecionando para planos...')">Assinar por R$49/mês</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ ADMIN PAGES ══ -->
+
+      <!-- A1: ADMIN DASHBOARD -->
+      <div class="page" id="page-admin-dashboard">
+        <div style="margin-bottom:22px;">
+          <h2 style="font-family:var(--head);font-size:1.5rem;font-weight:700;">Painel Administrativo</h2>
+          <p style="color:var(--text2);font-size:.875rem;">Visão geral da plataforma ServiLocal</p>
+        </div>
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-icon" style="background:rgba(59,130,246,.1);color:var(--blue)"><i class="fas fa-users"></i></div>
+            <div class="metric-label">Total de Clientes</div>
+            <div class="metric-value" style="color:var(--blue)">18.4k</div>
+            <div class="metric-sub up"><i class="fas fa-arrow-up"></i> +342 essa semana</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon" style="background:rgba(245,158,11,.1);color:var(--amber)"><i class="fas fa-briefcase"></i></div>
+            <div class="metric-label">Total de Prestadores</div>
+            <div class="metric-value" style="color:var(--amber)">4.7k</div>
+            <div class="metric-sub up"><i class="fas fa-arrow-up"></i> +89 essa semana</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon" style="background:rgba(34,197,94,.1);color:var(--green)"><i class="fas fa-dollar-sign"></i></div>
+            <div class="metric-label">Receita (comissões)</div>
+            <div class="metric-value" style="color:var(--green)">R$47k</div>
+            <div class="metric-sub up"><i class="fas fa-arrow-up"></i> +12% vs mês anterior</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon" style="background:rgba(249,115,22,.1);color:var(--orange)"><i class="fas fa-list-check"></i></div>
+            <div class="metric-label">Serviços Realizados</div>
+            <div class="metric-value" style="color:var(--orange)">2.8k</div>
+            <div class="metric-sub">Esse mês</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon" style="background:rgba(239,68,68,.1);color:var(--red)"><i class="fas fa-flag"></i></div>
+            <div class="metric-label">Denúncias Abertas</div>
+            <div class="metric-value" style="color:var(--red)">12</div>
+            <div class="metric-sub down"><i class="fas fa-exclamation"></i> Requer atenção</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-icon" style="background:rgba(168,85,247,.1);color:var(--purple)"><i class="fas fa-crown"></i></div>
+            <div class="metric-label">Assinantes PRO</div>
+            <div class="metric-value" style="color:var(--purple)">823</div>
+            <div class="metric-sub up"><i class="fas fa-arrow-up"></i> +54 esse mês</div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:4px;" class="wrap">
+          <div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+              <h3 style="font-weight:700;font-size:1rem;"><i class="fas fa-user-clock" style="color:var(--amber);margin-right:8px;"></i>Verificações Pendentes</h3>
+              <span class="badge badge-amber">3 aguardando</span>
+            </div>
+            <div>
+              <div class="verification-item">
+                <div class="doc-preview"><i class="fas fa-id-card"></i></div>
+                <div class="doc-preview"><i class="fas fa-camera"></i></div>
+                <div style="flex:1">
+                  <div style="font-weight:600;font-size:.85rem;">Pedro Hidráulica</div>
+                  <div style="color:var(--text3);font-size:.75rem;">Enviado há 2h • Hidráulica</div>
+                </div>
+                <div style="display:flex;gap:6px;">
+                  <button class="btn btn-sm" style="background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.2);" onclick="showToast('success','Aprovado!','Prestador verificado e aprovado.')">Aprovar</button>
+                  <button class="btn btn-danger btn-sm" onclick="showToast('error','Rejeitado','Cadastro rejeitado.')">Rejeitar</button>
+                </div>
+              </div>
+              <div class="verification-item">
+                <div class="doc-preview"><i class="fas fa-id-card"></i></div>
+                <div class="doc-preview"><i class="fas fa-camera"></i></div>
+                <div style="flex:1">
+                  <div style="font-weight:600;font-size:.85rem;">Fernanda Beleza</div>
+                  <div style="color:var(--text3);font-size:.75rem;">Enviado há 5h • Beleza</div>
+                </div>
+                <div style="display:flex;gap:6px;">
+                  <button class="btn btn-sm" style="background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.2);" onclick="showToast('success','Aprovado!','Prestador verificado.')">Aprovar</button>
+                  <button class="btn btn-danger btn-sm" onclick="showToast('error','Rejeitado','Cadastro rejeitado.')">Rejeitar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+              <h3 style="font-weight:700;font-size:1rem;"><i class="fas fa-flag" style="color:var(--red);margin-right:8px;"></i>Denúncias Recentes</h3>
+              <button class="btn btn-ghost btn-sm" onclick="navigateTo('admin-reports')">Ver todas</button>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <div class="admin-alert">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div style="flex:1">
+                  <div style="font-size:.83rem;font-weight:600;">Comportamento inadequado</div>
+                  <div style="font-size:.75rem;color:var(--text3)">Denunciado: Paulo M. • por Ana Souza</div>
+                </div>
+                <button class="btn btn-danger btn-sm" onclick="showToast('warn','Analisando','Denúncia em análise.')">Analisar</button>
+              </div>
+              <div class="admin-alert">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div style="flex:1">
+                  <div style="font-size:.83rem;font-weight:600;">Serviço não realizado</div>
+                  <div style="font-size:.75rem;color:var(--text3)">Denunciado: José F. • por 2 clientes</div>
+                </div>
+                <button class="btn btn-danger btn-sm" onclick="showToast('error','Suspenso','Usuário suspenso.')">Suspender</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- A2: ADMIN USERS -->
+      <div class="page" id="page-admin-users">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;">
+          <h2 style="font-family:var(--head);font-size:1.3rem;font-weight:700;">Gerenciar Usuários</h2>
+          <div class="flex gap-2">
+            <div class="search-bar" style="margin-bottom:0;background:var(--bg2);border:1px solid var(--border);padding:9px 14px;border-radius:var(--radius);">
+              <i class="fas fa-search" style="color:var(--text3)"></i>
+              <input placeholder="Buscar usuário..." style="background:none;border:none;color:var(--text);font-size:.83rem;">
+            </div>
+            <select class="form-input" style="width:auto;padding:9px 13px;font-size:.82rem;">
+              <option>Todos</option><option>Clientes</option><option>Prestadores</option>
+            </select>
+          </div>
+        </div>
+        <div class="card" style="padding:0;overflow:hidden;">
+          <table class="table">
+            <thead><tr><th>Usuário</th><th>Tipo</th><th>Cadastro</th><th>Status</th><th>Verificação</th><th>Ações</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><div class="flex align gap-2"><div class="avatar" style="background:linear-gradient(135deg,#f59e0b,#f97316)">CE</div><div><div style="font-weight:600;font-size:.85rem;">Carlos Eduardo</div><div style="color:var(--text3);font-size:.75rem;">carlos@email.com</div></div></div></td>
+                <td><span class="badge badge-amber">Prestador</span></td>
+                <td style="color:var(--text2);font-size:.8rem">05 Jan 2025</td>
+                <td><span class="badge badge-green">Ativo</span></td>
+                <td><span class="verified"><i class="fas fa-check-circle"></i> Verificado</span></td>
+                <td><div class="flex gap-1"><button class="btn btn-ghost btn-sm">Ver</button><button class="btn btn-danger btn-sm" onclick="showToast('warn','Suspenso','Usuário suspenso.')">Suspender</button></div></td>
+              </tr>
+              <tr>
+                <td><div class="flex align gap-2"><div class="avatar" style="background:linear-gradient(135deg,#3b82f6,#06b6d4)">JD</div><div><div style="font-weight:600;font-size:.85rem;">João Dias</div><div style="color:var(--text3);font-size:.75rem;">joao@email.com</div></div></div></td>
+                <td><span class="badge badge-blue">Cliente</span></td>
+                <td style="color:var(--text2);font-size:.8rem">12 Jan 2025</td>
+                <td><span class="badge badge-green">Ativo</span></td>
+                <td><span style="font-size:.78rem;color:var(--text3)">—</span></td>
+                <td><div class="flex gap-1"><button class="btn btn-ghost btn-sm">Ver</button><button class="btn btn-danger btn-sm" onclick="showToast('warn','Banido','Usuário banido da plataforma.')">Banir</button></div></td>
+              </tr>
+              <tr>
+                <td><div class="flex align gap-2"><div class="avatar" style="background:linear-gradient(135deg,#a855f7,#ec4899)">PH</div><div><div style="font-weight:600;font-size:.85rem;">Pedro Hidráulica</div><div style="color:var(--text3);font-size:.75rem;">pedro@email.com</div></div></div></td>
+                <td><span class="badge badge-amber">Prestador</span></td>
+                <td style="color:var(--text2);font-size:.8rem">14 Jan 2025</td>
+                <td><span class="badge badge-blue">Pendente</span></td>
+                <td><span class="badge badge-blue">Aguardando</span></td>
+                <td><div class="flex gap-1"><button class="btn btn-sm" style="background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.2);" onclick="showToast('success','Aprovado!','Cadastro aprovado.')">Aprovar</button><button class="btn btn-danger btn-sm" onclick="showToast('error','Rejeitado','Cadastro rejeitado.')">Rejeitar</button></div></td>
+              </tr>
+              <tr>
+                <td><div class="flex align gap-2"><div class="avatar" style="background:linear-gradient(135deg,#ef4444,#f97316)">JF</div><div><div style="font-weight:600;font-size:.85rem;">José Ferreira</div><div style="color:var(--text3);font-size:.75rem;">jose@email.com</div></div></div></td>
+                <td><span class="badge badge-amber">Prestador</span></td>
+                <td style="color:var(--text2);font-size:.8rem">01 Dez 2024</td>
+                <td><span class="badge badge-red">Suspenso</span></td>
+                <td><span class="verified"><i class="fas fa-check-circle"></i> Verificado</span></td>
+                <td><div class="flex gap-1"><button class="btn btn-ghost btn-sm">Ver</button><button class="btn btn-sm" style="background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.2);" onclick="showToast('success','Reativado','Usuário reativado.')">Reativar</button></div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- A3: ADMIN REPORTS -->
+      <div class="page" id="page-admin-reports">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;">
+          <h2 style="font-family:var(--head);font-size:1.3rem;font-weight:700;">Denúncias</h2>
+          <span class="badge badge-red" style="font-size:.8rem;padding:6px 14px;">12 Abertas</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div class="card">
+            <div style="display:flex;align-items:flex-start;gap:14px;">
+              <div class="avatar" style="background:linear-gradient(135deg,#ef4444,#f97316);flex-shrink:0">JF</div>
+              <div style="flex:1">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;flex-wrap:wrap;">
+                  <span style="font-weight:700;font-size:.9rem;">José Ferreira</span>
+                  <span class="badge badge-red">Denunciado 2x</span>
+                  <span class="badge badge-amber">Prestador</span>
+                </div>
+                <div style="font-weight:600;font-size:.83rem;margin-bottom:4px;"><i class="fas fa-flag" style="color:var(--red);margin-right:5px;"></i>Serviço não realizado — cobrou e não foi</div>
+                <div style="color:var(--text2);font-size:.8rem;line-height:1.5;margin-bottom:12px;">O prestador cobrou R$300 de sinal, prometeu aparecer dia 10/01 mas nunca chegou. Não responde mais as mensagens e bloqueou o cliente.</div>
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+                  <div class="avatar" style="width:24px;height:24px;font-size:.6rem;background:linear-gradient(135deg,#3b82f6,#06b6d4)">AS</div>
+                  <span style="font-size:.77rem;color:var(--text3)">Denunciante: Ana Souza • 10 Jan 2025</span>
+                </div>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                  <button class="btn btn-sm" style="background:rgba(245,158,11,.12);color:var(--amber);border:1px solid rgba(245,158,11,.2);" onclick="showToast('warn','Alerta','Alerta enviado ao usuário.')"><i class="fas fa-triangle-exclamation"></i> Enviar Alerta</button>
+                  <button class="btn btn-sm" style="background:rgba(239,68,68,.12);color:var(--red);border:1px solid rgba(239,68,68,.2);" onclick="showToast('error','Suspenso','Usuário suspenso por 30 dias.')"><i class="fas fa-ban"></i> Suspender 30 dias</button>
+                  <button class="btn btn-danger btn-sm" onclick="showToast('error','Banido','Usuário banido permanentemente.')"><i class="fas fa-trash"></i> Banir Permanente</button>
+                  <button class="btn btn-ghost btn-sm" onclick="showToast('info','Arquivado','Denúncia arquivada.')">Arquivar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div style="display:flex;align-items:flex-start;gap:14px;">
+              <div class="avatar" style="background:linear-gradient(135deg,#6b7280,#374151);flex-shrink:0">PM</div>
+              <div style="flex:1">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+                  <span style="font-weight:700;font-size:.9rem;">Paulo Marques</span>
+                  <span class="badge badge-red">Denunciado 1x</span>
+                </div>
+                <div style="font-weight:600;font-size:.83rem;margin-bottom:4px;"><i class="fas fa-flag" style="color:var(--red);margin-right:5px;"></i>Comportamento inadequado</div>
+                <div style="color:var(--text2);font-size:.8rem;line-height:1.5;margin-bottom:12px;">Prestador fez comentários ofensivos durante o atendimento e foi grosseiro com a cliente.</div>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                  <button class="btn btn-sm" style="background:rgba(245,158,11,.12);color:var(--amber);border:1px solid rgba(245,158,11,.2);" onclick="showToast('warn','Alerta','Alerta enviado.')"><i class="fas fa-triangle-exclamation"></i> Enviar Alerta</button>
+                  <button class="btn btn-ghost btn-sm" onclick="showToast('info','Arquivado','Denúncia arquivada.')">Arquivar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- A4: ADMIN PAYMENTS -->
+      <div class="page" id="page-admin-payments">
+        <div style="margin-bottom:22px;">
+          <h2 style="font-family:var(--head);font-size:1.3rem;font-weight:700;">Pagamentos e Comissões</h2>
+        </div>
+        <div class="metrics-grid" style="margin-bottom:24px;">
+          <div class="metric-card">
+            <div class="metric-label">Receita Total (mês)</div>
+            <div class="metric-value" style="color:var(--green)">R$47.832</div>
+            <div class="metric-sub up"><i class="fas fa-arrow-up"></i>+12% vs anterior</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Comissões (10%)</div>
+            <div class="metric-value" style="color:var(--amber)">R$4.783</div>
+            <div class="metric-sub">Arrecadado esse mês</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Assinaturas PRO</div>
+            <div class="metric-value" style="color:var(--purple)">R$40.327</div>
+            <div class="metric-sub">823 assinantes × R$49</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Em Disputa</div>
+            <div class="metric-value" style="color:var(--red)">R$1.240</div>
+            <div class="metric-sub down"><i class="fas fa-exclamation"></i> 3 disputas abertas</div>
+          </div>
+        </div>
+        <div style="margin-bottom:14px;"><h3 style="font-weight:700;font-size:1rem;">Transações Recentes</h3></div>
+        <div class="card" style="padding:0;overflow:hidden;">
+          <table class="table">
+            <thead><tr><th>Transação</th><th>Cliente</th><th>Prestador</th><th>Valor Total</th><th>Comissão (10%)</th><th>Data</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr>
+                <td style="font-size:.78rem;color:var(--text3)">#TRX-4821</td>
+                <td>João Dias</td>
+                <td>Carlos E.</td>
+                <td style="font-weight:600">R$ 350,00</td>
+                <td style="color:var(--amber);font-weight:600">R$ 35,00</td>
+                <td style="color:var(--text2);font-size:.8rem">14 Jan 2025</td>
+                <td><span class="badge badge-green">Pago</span></td>
+              </tr>
+              <tr>
+                <td style="font-size:.78rem;color:var(--text3)">#TRX-4820</td>
+                <td>Ana Souza</td>
+                <td>Maria L.</td>
+                <td style="font-weight:600">R$ 280,00</td>
+                <td style="color:var(--amber);font-weight:600">R$ 28,00</td>
+                <td style="color:var(--text2);font-size:.8rem">13 Jan 2025</td>
+                <td><span class="badge badge-green">Pago</span></td>
+              </tr>
+              <tr>
+                <td style="font-size:.78px;color:var(--text3)">#TRX-4819</td>
+                <td>Lucas F.</td>
+                <td>Roberto P.</td>
+                <td style="font-weight:600">R$ 500,00</td>
+                <td style="color:var(--amber);font-weight:600">R$ 50,00</td>
+                <td style="color:var(--text2);font-size:.8rem">12 Jan 2025</td>
+                <td><span class="badge badge-red">Em Disputa</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- A5: ADMIN SUPPORT -->
+      <div class="page" id="page-admin-support">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;">
+          <h2 style="font-family:var(--head);font-size:1.3rem;font-weight:700;">Central de Suporte</h2>
+          <div class="flex gap-2 align">
+            <span class="badge badge-red" style="font-size:.78rem;padding:6px 14px;">5 Urgentes</span>
+            <span class="badge badge-amber" style="font-size:.78rem;padding:6px 14px;">8 Abertos</span>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div class="card">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:14px;">
+              <div style="flex:1">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap;">
+                  <span class="badge badge-red">Urgente</span>
+                  <span style="font-weight:700;font-size:.9rem;">Não consigo entrar na minha conta</span>
+                </div>
+                <div style="color:var(--text2);font-size:.82rem;margin-bottom:8px;">João Dias • joao@email.com</div>
+                <div style="color:var(--text2);font-size:.82rem;line-height:1.5;">"Tentei fazer login várias vezes e está dando erro de senha inválida mesmo tendo redefinido. Tenho um serviço urgente hoje."</div>
+              </div>
+              <div style="flex-shrink:0;display:flex;flex-direction:column;gap:8px;min-width:120px;">
+                <button class="btn btn-primary btn-sm" onclick="showToast('info','Respondendo','Abrindo chat de suporte.')"><i class="fas fa-reply"></i> Responder</button>
+                <button class="btn btn-ghost btn-sm" onclick="showToast('success','Resolvido','Ticket marcado como resolvido.')">Resolver</button>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:14px;">
+              <div style="flex:1">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+                  <span class="badge badge-amber">Normal</span>
+                  <span style="font-weight:700;font-size:.9rem;">Como cancelar uma solicitação?</span>
+                </div>
+                <div style="color:var(--text2);font-size:.82rem;margin-bottom:8px;">Ana Souza • ana@email.com</div>
+                <div style="color:var(--text2);font-size:.82rem;line-height:1.5;">"Preciso cancelar um serviço agendado. O prestador não confirmou ainda. Como faço?"</div>
+              </div>
+              <div style="flex-shrink:0;display:flex;flex-direction:column;gap:8px;min-width:120px;">
+                <button class="btn btn-primary btn-sm" onclick="showToast('info','Respondendo','Respondendo ticket...')"><i class="fas fa-reply"></i> Responder</button>
+                <button class="btn btn-ghost btn-sm" onclick="showToast('success','Resolvido','Ticket resolvido.')">Resolver</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- A6: ADMIN TIMELINE MODERATION -->
+      <div class="page" id="page-admin-timeline">
+        <div style="margin-bottom:22px;">
+          <h2 style="font-family:var(--head);font-size:1.3rem;font-weight:700;">Moderação da Timeline</h2>
+          <p style="color:var(--text2);font-size:.875rem;">Gerencie postagens e conteúdos inadequados.</p>
+        </div>
+        <div class="flex gap-2 align" style="margin-bottom:18px;">
+          <button class="badge badge-amber" style="padding:7px 15px;cursor:pointer;border:none;font-size:.78rem;">Todos os Posts</button>
+          <button class="tag">🚩 Sinalizados (4)</button>
+          <button class="tag">🕐 Pendentes (2)</button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div class="card">
+            <div style="display:flex;align-items:flex-start;gap:12px;">
+              <div class="avatar" style="background:linear-gradient(135deg,#6b7280,#374151)">XX</div>
+              <div style="flex:1">
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap;">
+                  <span style="font-weight:700;font-size:.88rem;">Usuário Anônimo</span>
+                  <span class="badge badge-red">🚩 Sinalizado por 3 usuários</span>
+                </div>
+                <div style="color:var(--text2);font-size:.83rem;line-height:1.5;margin-bottom:12px;">
+                  [Conteúdo com linguagem ofensiva detectado — ocultado para moderação]
+                </div>
+                <div style="display:flex;gap:8px;">
+                  <button class="btn btn-danger btn-sm" onclick="showToast('error','Removido','Post removido da timeline.')"><i class="fas fa-trash"></i> Remover</button>
+                  <button class="btn btn-ghost btn-sm" onclick="showToast('success','Aprovado','Post aprovado.')"><i class="fas fa-check"></i> Aprovar</button>
+                  <button class="btn btn-sm" style="background:rgba(245,158,11,.1);color:var(--amber);border:1px solid rgba(245,158,11,.2);" onclick="showToast('warn','Alerta','Usuário alertado.')"><i class="fas fa-bell"></i> Alertar Usuário</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end page-content -->
+  </main>
+</div><!-- end app -->
+
+<!-- ══════════════════════════════════
+     NEW SERVICE MODAL
+══════════════════════════════════ -->
+<div class="modal-overlay" id="newServiceModal">
+  <div class="modal" style="max-width:520px;">
+    <button class="modal-close" onclick="closeModal('newServiceModal')"><i class="fas fa-times"></i></button>
+    <div class="modal-title">Criar Novo Serviço</div>
+    <div class="modal-sub">Preencha as informações do serviço que você oferece.</div>
+    <div class="form-grid">
+      <div class="form-group"><label class="form-label">Título do Serviço</label><input class="form-input" placeholder="Ex: Instalação Elétrica Residencial"></div>
+      <div class="form-group"><label class="form-label">Categoria</label>
+        <select class="form-input">
+          <option>Elétrica</option><option>Hidráulica</option><option>Limpeza</option><option>Pintura</option>
+        </select>
+      </div>
+      <div class="form-group"><label class="form-label">Descrição</label><textarea class="form-input" placeholder="Descreva em detalhes o serviço oferecido..."></textarea></div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Preço</label>
+          <input class="form-input" placeholder="R$ 0,00" id="priceInput">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tipo</label>
+          <select class="form-input">
+            <option>Por hora</option><option>Por serviço</option><option>A combinar</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Fotos do Serviço</label>
+        <div class="upload-zone">
+          <i class="fas fa-images"></i>
+          <p>Adicionar fotos do trabalho</p>
+          <span>Até 5 fotos • PNG, JPG</span>
+        </div>
+      </div>
+      <button class="btn btn-primary w-full" onclick="createService()"><i class="fas fa-plus"></i> Criar Serviço</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════
+//  STATE
+// ═══════════════════════════════
+let currentUser = null;
+let currentRole = null;
+let currentPage = null;
+let notifOpen = false;
+let starRatings = {quality:0,speed:0,comm:0};
+
+// ═══════════════════════════════
+//  BOOT
+// ═══════════════════════════════
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    const l = document.getElementById('loading');
+    l.style.opacity='0';
+    setTimeout(()=>l.style.display='none',500);
+  },1600);
+  buildCalendar();
+  buildProviders();
+  buildRequests();
+  buildTimeline();
+});
+
+// ═══════════════════════════════
+//  MODAL
+// ═══════════════════════════════
+function openModal(id){document.getElementById(id).classList.add('active');}
+function closeModal(id){document.getElementById(id).classList.remove('active');}
+
+// ═══════════════════════════════
+//  AUTH TABS
+// ═══════════════════════════════
+function switchAuthTab(tab,btn){
+  document.getElementById('tab-login').classList.add('hidden');
+  document.getElementById('tab-register').classList.add('hidden');
+  document.getElementById('tab-'+tab).classList.remove('hidden');
+  document.querySelectorAll('.modal-tabs .modal-tab').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+}
+function setRegType(type,btn){
+  document.querySelectorAll('#tab-register .modal-tabs .modal-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('providerExtra').classList.toggle('hidden',type!=='provider');
+}
+
+// ═══════════════════════════════
+//  LOGIN / LOGOUT
+// ═══════════════════════════════
+const USERS={
+  client:{name:'João Silva',initials:'JS',role:'Cliente',pages:[
+    {id:'client-dashboard',icon:'fa-house',label:'Início'},
+    {id:'client-search',icon:'fa-magnifying-glass',label:'Buscar Serviços'},
+    {id:'client-requests',icon:'fa-list-check',label:'Minhas Solicitações',badge:1},
+    {id:'client-chat',icon:'fa-comments',label:'Mensagens',badge:2},
+    {id:'timeline',icon:'fa-rss',label:'Timeline'},
+  ]},
+  provider:{name:'Carlos Eduardo',initials:'CE',role:'Prestador',pages:[
+    {id:'provider-dashboard',icon:'fa-house',label:'Dashboard'},
+    {id:'provider-services',icon:'fa-briefcase',label:'Meus Serviços'},
+    {id:'provider-requests',icon:'fa-file-invoice',label:'Solicitações',badge:2},
+    {id:'provider-chat',icon:'fa-comments',label:'Mensagens',badge:7},
+    {id:'provider-profile',icon:'fa-user-circle',label:'Meu Perfil'},
+    {id:'timeline',icon:'fa-rss',label:'Timeline'},
+  ]},
+  admin:{name:'Admin Master',initials:'AM',role:'Administrador',pages:[
+    {id:'admin-dashboard',icon:'fa-chart-line',label:'Dashboard'},
+    {id:'admin-users',icon:'fa-users',label:'Usuários',badge:3},
+    {id:'admin-reports',icon:'fa-flag',label:'Denúncias',badge:12},
+    {id:'admin-payments',icon:'fa-dollar-sign',label:'Pagamentos'},
+    {id:'admin-support',icon:'fa-headset',label:'Suporte',badge:5},
+    {id:'admin-timeline',icon:'fa-shield-halved',label:'Moderação'},
+  ]}
+};
+
+function mockLogin(role){
+  closeModal('authModal');
+  currentRole=role;
+  currentUser=USERS[role];
+  document.getElementById('landing').style.display='none';
+  const app=document.getElementById('app');
+  app.classList.add('active');
+  document.getElementById('sidebarAvatar').textContent=currentUser.initials;
+  document.getElementById('topAvatar').textContent=currentUser.initials;
+  document.getElementById('sidebarName').textContent=currentUser.name;
+  document.getElementById('sidebarRole').textContent=currentUser.role;
+  document.getElementById('sidebarRoleLabel').textContent=currentUser.role+' — ServiLocal';
+  if(document.getElementById('clientNameGreet'))document.getElementById('clientNameGreet').textContent=currentUser.name.split(' ')[0];
+  if(document.getElementById('provNameGreet'))document.getElementById('provNameGreet').textContent=currentUser.name.split(' ')[0];
+  buildSidebarNav();
+  navigateTo(currentUser.pages[0].id);
+  showToast('success','Bem-vindo(a)!',`Olá, ${currentUser.name.split(' ')[0]}! Login realizado com sucesso.`);
+}
+
+function mockRegister(){
+  showToast('success','Conta Criada!','Verifique seu SMS para ativar a conta.');
+  closeModal('authModal');
+  setTimeout(()=>mockLogin('client'),800);
+}
+
+function logout(){
+  document.getElementById('app').classList.remove('active');
+  document.getElementById('landing').style.display='flex';
+  document.getElementById('landing').style.flexDirection='column';
+  currentUser=null;currentRole=null;
+  showToast('info','Saindo...','Você foi desconectado.');
+}
+
+function goToLanding(){logout();}
+
+// ═══════════════════════════════
+//  SIDEBAR NAV
+// ═══════════════════════════════
+function buildSidebarNav(){
+  const nav=document.getElementById('sidebarNav');
+  nav.innerHTML='';
+  const sec=document.createElement('div');sec.className='sidebar-section';
+  const title=document.createElement('div');title.className='sidebar-section-title';title.textContent='Menu';
+  sec.appendChild(title);
+  currentUser.pages.forEach(p=>{
+    const item=document.createElement('div');
+    item.className='nav-item';item.id='nav-'+p.id;
+    item.innerHTML=`<i class="fas ${p.icon}"></i>${p.label}${p.badge?`<span class="nav-badge">${p.badge}</span>`:''}`;
+    item.onclick=()=>navigateTo(p.id);
+    sec.appendChild(item);
+  });
+  nav.appendChild(sec);
+}
+
+function navigateTo(pageId){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const page=document.getElementById('page-'+pageId);
+  if(page)page.classList.add('active');
+  const navItem=document.getElementById('nav-'+pageId);
+  if(navItem)navItem.classList.add('active');
+  currentPage=pageId;
+  // topbar title
+  const titles={
+    'client-dashboard':'Início','client-search':'Buscar Serviços',
+    'client-requests':'Minhas Solicitações','client-chat':'Mensagens',
+    'provider-dashboard':'Dashboard','provider-services':'Meus Serviços',
+    'provider-requests':'Solicitações','provider-chat':'Mensagens',
+    'provider-profile':'Meu Perfil','admin-dashboard':'Painel Admin',
+    'admin-users':'Usuários','admin-reports':'Denúncias',
+    'admin-payments':'Pagamentos','admin-support':'Suporte',
+    'admin-timeline':'Moderação da Timeline','timeline':'Timeline',
+  };
+  document.getElementById('topbarTitle').textContent=titles[pageId]||pageId;
+  window.scrollTo(0,0);
+}
+
+// ═══════════════════════════════
+//  PROVIDERS GRID
+// ═══════════════════════════════
+const providers=[
+  {name:'Carlos Eletricista',cat:'Elétrica',stars:'4.9',reviews:47,price:'R$80/h',pro:true,tag:'CE',bg:'linear-gradient(135deg,#f59e0b,#f97316)',icon:'⚡',loc:'3.2km',avail:'Hoje'},
+  {name:'Maria Limpeza',cat:'Limpeza Residencial',stars:'4.8',reviews:89,price:'R$60/h',pro:true,tag:'ML',bg:'linear-gradient(135deg,#3b82f6,#06b6d4)',icon:'🧹',loc:'1.8km',avail:'Amanhã'},
+  {name:'Roberto Pintor',cat:'Pintura',stars:'4.7',reviews:34,price:'A combinar',pro:false,tag:'RP',bg:'linear-gradient(135deg,#a855f7,#ec4899)',icon:'🎨',loc:'5.1km',avail:'Hoje'},
+  {name:'Fernanda Beleza',cat:'Beleza e Estética',stars:'4.9',reviews:112,price:'R$45/h',pro:true,tag:'FB',bg:'linear-gradient(135deg,#ec4899,#f43f5e)',icon:'💇',loc:'2.4km',avail:'Hoje'},
+  {name:'Pedro Hidráulico',cat:'Hidráulica',stars:'4.6',reviews:28,price:'R$90/h',pro:false,tag:'PH',bg:'linear-gradient(135deg,#14b8a6,#06b6d4)',icon:'🔧',loc:'6.7km',avail:'Quarta'},
+  {name:'Ana Tutora',cat:'Aulas Particulares',stars:'5.0',reviews:22,price:'R$70/h',pro:true,tag:'AT',bg:'linear-gradient(135deg,#22c55e,#16a34a)',icon:'📚',loc:'0.9km',avail:'Hoje'},
+];
+
+function buildProviders(filter=''){
+  const grid=document.getElementById('providersGrid');
+  if(!grid)return;
+  const filtered=providers.filter(p=>!filter||p.name.toLowerCase().includes(filter.toLowerCase())||p.cat.toLowerCase().includes(filter.toLowerCase()));
+  const el=document.getElementById('resultsCount');
+  if(el)el.textContent=filtered.length;
+  grid.innerHTML=filtered.map(p=>`
+    <div class="provider-card card-hover" onclick="viewProvider('${p.name}')">
+      <div class="provider-card-cover" style="background:${p.bg}15">
+        <div style="font-size:2.8rem;position:absolute;top:50%;left:50%;transform:translate(-50%,-65%)">${p.icon}</div>
+        ${p.pro?'<div class="pro-badge">⭐ PRO</div>':''}
+        <div class="avatar" style="background:${p.bg};font-size:.75rem">${p.tag}</div>
+      </div>
+      <div class="provider-card-body">
+        <div class="provider-card-name">${p.name}</div>
+        <div class="provider-card-cat">${p.cat} • <span style="color:var(--text3)">${p.loc}</span></div>
+        <div class="provider-card-meta">
+          <div>
+            <div class="stars">★★★★★ <span style="color:var(--text)">${p.stars}</span></div>
+            <div style="color:var(--text3);font-size:.72rem">${p.reviews} avaliações</div>
+          </div>
+          <div>
+            <div class="provider-card-price">${p.price}</div>
+            <div style="color:var(--green);font-size:.72rem">${p.avail}</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:12px;">
+          <button class="btn btn-primary btn-sm" style="flex:1" onclick="event.stopPropagation();openModal('requestModal')">Solicitar</button>
+          <button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();navigateTo('client-chat')"><i class="fas fa-comment"></i></button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+function filterProviders(v=''){buildProviders(v);}
+function viewProvider(name){openModal('requestModal');}
+
+// ═══════════════════════════════
+//  REQUESTS LIST
+// ═══════════════════════════════
+const requestsData=[
+  {id:1,service:'Instalação Elétrica',provider:'Carlos Eletricista',date:'15 Jan, 14h',status:'active',price:'R$350',avatar:'CE',bg:'linear-gradient(135deg,#f59e0b,#f97316)'},
+  {id:2,service:'Limpeza Residencial',provider:'Maria Limpeza',date:'10 Jan, 09h',status:'done',price:'R$180',avatar:'ML',bg:'linear-gradient(135deg,#3b82f6,#06b6d4)'},
+  {id:3,service:'Pintura de Quarto',provider:'Roberto Pintor',date:'05 Jan, 08h',status:'done',price:'R$600',avatar:'RP',bg:'linear-gradient(135deg,#a855f7,#ec4899)'},
+  {id:4,service:'Manutenção de Chuveiro',provider:'Pedro Hidráulico',date:'20 Dez, 10h',status:'done',price:'R$120',avatar:'PH',bg:'linear-gradient(135deg,#14b8a6,#06b6d4)'},
+  {id:5,service:'Aulas de Inglês',provider:'Ana Tutora',date:'18 Dez, 15h',status:'done',price:'R$210',avatar:'AT',bg:'linear-gradient(135deg,#22c55e,#16a34a)'},
+  {id:6,service:'Dedetização',provider:'Pest Control',date:'10 Dez, 09h',status:'cancelled',price:'R$0',avatar:'PC',bg:'linear-gradient(135deg,#6b7280,#374151)'},
+  {id:7,service:'Jardinagem',provider:'João Jardim',date:'25 Jan, 08h',status:'pending',price:'R$150',avatar:'JJ',bg:'linear-gradient(135deg,#22c55e,#84cc16)'},
+  {id:8,service:'Reparo de Computador',provider:'Tech Fix',date:'12 Jan, 14h',status:'done',price:'R$200',avatar:'TF',bg:'linear-gradient(135deg,#3b82f6,#6366f1)'},
+];
+
+const statusMap={
+  pending:{label:'Pendente',badge:'badge-blue',step:0},
+  active:{label:'Em Andamento',badge:'badge-amber',step:2},
+  done:{label:'Finalizado',badge:'badge-green',step:4},
+  cancelled:{label:'Cancelado',badge:'badge-red',step:-1},
+};
+
+function buildRequests(filter='all'){
+  const list=document.getElementById('requestsList');
+  if(!list)return;
+  const data=filter==='all'?requestsData:requestsData.filter(r=>{
+    if(filter==='pending')return r.status==='pending';
+    if(filter==='active')return r.status==='active';
+    if(filter==='done')return r.status==='done';
+    if(filter==='cancelled')return r.status==='cancelled';
+    return true;
+  });
+  list.innerHTML=data.map(r=>{
+    const s=statusMap[r.status];
+    const steps=[
+      {l:'Pendente',done:r.status!=='cancelled'},
+      {l:'Aceito',done:['active','done'].includes(r.status)},
+      {l:'Em andamento',done:r.status==='done'},
+      {l:'Finalizado',done:r.status==='done'},
+    ];
+    const stepsHtml=r.status==='cancelled'
+      ?`<span class="badge badge-red" style="font-size:.77rem;">❌ Cancelado</span>`
+      :`<div class="status-track">${steps.map((st,i)=>`
+          ${i>0?`<div class="status-line ${st.done?'done':''}"></div>`:''}
+          <div class="status-step">
+            <div class="status-dot ${st.done?(i===(steps.filter(x=>x.done).length-1)&&r.status!=='done'?'active':'done'):''}">
+              ${st.done?'<i class="fas fa-check" style="font-size:.5rem"></i>':i+1}
+            </div>
+            <div class="status-label">${st.l}</div>
+          </div>
+        `).join('')}</div>`;
+
+    return `
+      <div class="card">
+        <div style="display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap;">
+          <div class="avatar avatar-lg" style="background:${r.bg}">${r.avatar}</div>
+          <div style="flex:1;min-width:200px;">
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:4px;">
+              <div style="font-weight:700;font-size:.95rem;">${r.service}</div>
+              <span class="badge ${s.badge}">${s.label}</span>
+            </div>
+            <div style="color:var(--text2);font-size:.82rem;margin-bottom:4px;">Prestador: <strong>${r.provider}</strong></div>
+            <div style="color:var(--text3);font-size:.78rem;margin-bottom:14px;">📅 ${r.date} &nbsp;•&nbsp; 💰 ${r.price}</div>
+            <div style="margin-bottom:16px;">${stepsHtml}</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button class="btn btn-ghost btn-sm" onclick="navigateTo('client-chat')"><i class="fas fa-comment"></i> Chat</button>
+              ${r.status==='done'?`<button class="btn btn-sm" style="background:rgba(245,158,11,.1);color:var(--amber);border:1px solid rgba(245,158,11,.2);" onclick="openModal('ratingModal')"><i class="fas fa-star"></i> Avaliar</button>`:''}
+              ${['pending','active'].includes(r.status)?`<button class="btn btn-danger btn-sm" onclick="showToast('warn','Cancelado','Solicitação cancelada.')"><i class="fas fa-times"></i> Cancelar</button>`:''}
+              <button class="btn btn-ghost btn-sm" onclick="openModal('reportModal')"><i class="fas fa-flag"></i> Denunciar</button>
+            </div>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function filterReqs(filter,btn){
+  document.querySelectorAll('#page-client-requests .flex button').forEach(b=>{
+    b.className='tag';
+  });
+  btn.className='badge badge-amber';btn.style.padding='7px 15px';btn.style.cursor='pointer';btn.style.border='none';btn.style.fontSize='.78rem';
+  buildRequests(filter);
+}
+
+// ═══════════════════════════════
+//  TIMELINE
+// ═══════════════════════════════
+const posts=[
+  {author:'Carlos Eletricista',role:'Prestador PRO',initials:'CE',bg:'linear-gradient(135deg,#f59e0b,#f97316)',time:'Há 20 min',text:'Mais um trabalho finalizado! ⚡ Instalei o quadro de distribuição completo nessa residência em Vila Mariana. Cliente super satisfeito e solicitou manutenção preventiva anual. Obrigado pela confiança! 🙏',images:['⚡','🔌','🔧'],likes:24,comments:5,liked:false},
+  {author:'Ana Souza',role:'Cliente',initials:'AS',bg:'linear-gradient(135deg,#3b82f6,#06b6d4)',time:'Há 1h',text:'Recomendo demais a Maria Limpeza! 🧹✨ Minha casa ficou impecável. Super pontual, cuidadosa e atenciosa. Com certeza vou solicitar novamente! #ServiLocal',images:[],likes:12,comments:3,liked:true},
+  {author:'Maria Limpeza',role:'Prestadora PRO',initials:'ML',bg:'linear-gradient(135deg,#ec4899,#f43f5e)',time:'Há 3h',text:'Dica de hoje: use bicarbonato de sódio com vinagre para limpar rejuntes sem produtos químicos agressivos! Funciona muito bem e é super barato. 💡🧼 Salva essa dica!',images:[],likes:47,comments:8,liked:false},
+  {author:'Roberto Pintor',role:'Prestador',initials:'RP',bg:'linear-gradient(135deg,#a855f7,#ec4899)',time:'Há 5h',text:'Transformação completa! 🎨 Quarto que estava com pintura gasta e manchada agora está impecável. Utilizamos tinta premium com acabamento fosco. Duração mínima de 5 anos!',images:['🎨','🖌️','🏠'],likes:31,comments:7,liked:false},
+];
+
+function buildTimeline(){
+  const container=document.getElementById('timelinePosts');
+  if(!container)return;
+  container.innerHTML=posts.map((p,i)=>`
+    <div class="post" id="post-${i}">
+      <div class="post-header">
+        <div class="avatar" style="background:${p.bg}">${p.initials}</div>
+        <div class="post-author">
+          <div class="post-author-name">${p.author} ${p.role.includes('PRO')?'<span class="badge badge-amber" style="font-size:.62rem;padding:2px 7px;">PRO</span>':''}</div>
+          <div class="post-author-sub">${p.role}</div>
+        </div>
+        <div class="post-time">${p.time}</div>
+      </div>
+      <div class="post-body">${p.text}</div>
+      ${p.images.length?`<div class="post-images">${p.images.map(img=>`<div class="post-image">${img}</div>`).join('')}</div>`:''}
+      <div class="post-actions">
+        <div class="post-action-btn ${p.liked?'liked':''}" onclick="toggleLike(${i},this)">
+          <i class="fas fa-heart"></i> <span class="likes-count">${p.likes}</span>
+        </div>
+        <div class="post-action-btn">
+          <i class="fas fa-comment"></i> ${p.comments} comentários
+        </div>
+        <div class="post-action-btn">
+          <i class="fas fa-share-nodes"></i> Compartilhar
+        </div>
+        <div class="post-action-btn" onclick="openModal('reportModal')">
+          <i class="fas fa-flag"></i>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleLike(i,el){
+  posts[i].liked=!posts[i].liked;
+  posts[i].likes+=posts[i].liked?1:-1;
+  el.classList.toggle('liked',posts[i].liked);
+  el.querySelector('.likes-count').textContent=posts[i].likes;
+}
+
+function publishPost(){
+  showToast('success','Publicado!','Seu post foi publicado na timeline.');
+}
+
+// ═══════════════════════════════
+//  CALENDAR
+// ═══════════════════════════════
+function buildCalendar(){
+  const grid=document.getElementById('calDays');
+  if(!grid)return;
+  const d=new Date(2025,0,1);
+  const startDay=d.getDay();
+  const days=[];
+  for(let i=0;i<startDay;i++)days.push({n:0,type:'other'});
+  const avail=[6,7,9,10,13,14,16,17,20,21,23,24,27,28,30,31];
+  const blocked=[3,4,11,18,25];
+  for(let n=1;n<=31;n++){
+    let type='';
+    if(n===15)type='today';
+    else if(avail.includes(n))type='available';
+    else if(blocked.includes(n))type='blocked';
+    days.push({n,type});
+  }
+  grid.innerHTML=days.map(d=>`<div class="cal-date ${d.type}">${d.n||''}</div>`).join('');
+}
+
+// ═══════════════════════════════
+//  CHAT
+// ═══════════════════════════════
+function selectChat(name,initials,bg){
+  document.querySelectorAll('.chat-contact').forEach(c=>c.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  document.getElementById('chatName').textContent=name;
+  const av=document.getElementById('chatAvatar');
+  av.textContent=initials;av.style.background=bg;
+}
+
+function sendMsg(){
+  const input=document.getElementById('chatInput');
+  const text=input.value.trim();
+  if(!text)return;
+  const msgs=document.getElementById('chatMessages');
+  const bubble=document.createElement('div');
+  bubble.className='msg sent';
+  bubble.innerHTML=`
+    <div class="avatar" style="width:28px;height:28px;font-size:.62rem">${currentUser?currentUser.initials:'JD'}</div>
+    <div><div class="msg-bubble">${text}</div><div class="msg-time">Agora</div></div>`;
+  msgs.appendChild(bubble);
+  input.value='';
+  msgs.scrollTop=msgs.scrollHeight;
+  setTimeout(()=>{
+    const reply=document.createElement('div');
+    reply.className='msg recv';
+    reply.innerHTML=`
+      <div class="avatar" style="width:28px;height:28px;font-size:.62rem;background:linear-gradient(135deg,#f59e0b,#f97316)">CE</div>
+      <div><div class="msg-bubble">Mensagem recebida! Vou verificar e te respondo em breve. 😊</div><div class="msg-time">Agora</div></div>`;
+    msgs.appendChild(reply);
+    msgs.scrollTop=msgs.scrollHeight;
+  },1200);
+}
+
+// ═══════════════════════════════
+//  RATINGS
+// ═══════════════════════════════
+function setStars(cat,n){
+  starRatings[cat]=n;
+  const container=document.getElementById('stars-'+cat);
+  container.querySelectorAll('.star-btn').forEach((s,i)=>s.classList.toggle('active',i<n));
+}
+
+function submitRating(){
+  closeModal('ratingModal');
+  showToast('success','Avaliação Enviada!','Obrigado pelo seu feedback! Ele ajuda outros clientes.');
+}
+
+// ═══════════════════════════════
+//  OTHER ACTIONS
+// ═══════════════════════════════
+function submitRequest(){
+  closeModal('requestModal');
+  showToast('success','Solicitado!','Sua solicitação foi enviada ao prestador. Aguarde a confirmação.');
+}
+
+function submitReport(){
+  closeModal('reportModal');
+  showToast('warn','Denúncia Enviada','Vamos analisar e tomar as medidas necessárias. Obrigado!');
+}
+
+function createService(){
+  closeModal('newServiceModal');
+  showToast('success','Serviço Criado!','Seu serviço foi publicado e está aguardando aprovação.');
+}
+
+function openNewServiceModal(){openModal('newServiceModal');}
+
+// ═══════════════════════════════
+//  SIDEBAR TOGGLE
+// ═══════════════════════════════
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+}
+
+// ═══════════════════════════════
+//  NOTIFICATIONS
+// ═══════════════════════════════
+function toggleNotif(){
+  notifOpen=!notifOpen;
+  document.getElementById('notifPanel').classList.toggle('hidden',!notifOpen);
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('#notifBtn')&&!e.target.closest('#notifPanel')){
+    document.getElementById('notifPanel').classList.add('hidden');
+    notifOpen=false;
+  }
+});
+
+// ═══════════════════════════════
+//  TOAST
+// ═══════════════════════════════
+function showToast(type,title,msg){
+  const icons={success:'fa-check',error:'fa-times',info:'fa-info',warn:'fa-triangle-exclamation'};
+  const container=document.getElementById('toastContainer');
+  const t=document.createElement('div');t.className='toast';
+  t.innerHTML=`
+    <div class="toast-icon ${type}"><i class="fas ${icons[type]}"></i></div>
+    <div class="toast-text"><strong>${title}</strong><span>${msg}</span></div>
+  `;
+  container.appendChild(t);
+  setTimeout(()=>{t.classList.add('removing');setTimeout(()=>t.remove(),300)},3500);
+}
+
+// ═══════════════════════════════
+//  LANDING NAV
+// ═══════════════════════════════
+function scrollSection(id){
+  const el=document.getElementById(id);
+  if(el)el.scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>
